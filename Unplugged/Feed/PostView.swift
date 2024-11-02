@@ -32,7 +32,7 @@ struct PostView: View {
                         .foregroundColor(.accentColor)
                     
                     if (appSettings.showLikes) {
-                        Text(String(post.likeCount))
+                        Text(post.likeCount.compacted)
                             .padding(.leading, -6)
                     }
                 }
