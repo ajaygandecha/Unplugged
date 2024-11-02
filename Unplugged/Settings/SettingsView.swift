@@ -12,7 +12,7 @@ struct SettingsView: View {
     @State private var isInstagramConnected: Bool = false;
     @State private var isFacebookConnected: Bool = false;
     @State private var showLikes: Bool = false;
-    
+
     var body: some View {
         NavigationStack {
             List {
