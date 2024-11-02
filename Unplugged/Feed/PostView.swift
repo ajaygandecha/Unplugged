@@ -109,22 +109,8 @@ struct PostView: View {
                             .frame(width: geometry.size.width, height: geometry.size.width)
 
                             
-//                            AsyncImage(url: URL(string: media.url)!) { result in
-//                                result.image
-//                            }
-//                                Image(media.url)
-//                                    .resizable()
-//                                    .aspectRatio(contentMode: .fill)
                             case .video:
-                                let player = AVPlayer(url: URL(string: media.url)!)
-                                VideoPlayer(player: player)
-                                .onAppear {
-                                    player.play()
-                                }
-                                
-                                
-                                // .resizable()
-                                // .aspectRatio(contentMode: .fill)
+                                VideoPlayerView(url: URL(string: media.url)!)
                         }
                     }
                 }

@@ -52,8 +52,14 @@ class InstagramProvider: ObservableObject {
         }
         
         struct Variables: Encodable {
-            let after: String? = ""
-            let before: String? = nil
+            
+            init(after: String?, before: String?) {
+                self.after = after
+                self.before = before
+            }
+
+            let after: String?
+            let before: String?
             let data: VariableData = VariableData()
             let first: Int? = 12
             let last: Int? = nil
@@ -81,6 +87,11 @@ class InstagramProvider: ObservableObject {
 //        ]
         
         struct Parameters: Encodable {
+            
+            init(variables: Variables) {
+                self.variables = String(data: try! JSONEncoder().encode(variables), encoding: .utf8)!
+            }
+            
             let av: UInt64 = 17841403880909452
 //            __d: www
 //            __user: 0
@@ -103,17 +114,18 @@ class InstagramProvider: ObservableObject {
 //            __spin_t: 1730574497
             let fb_api_caller_class: String = "RelayModern"
             let fb_api_req_friendly_name: String = "PolarisFeedRootPaginationCachedQuery_subscribe"
-            let variables: String = String(data: try! JSONEncoder().encode(Variables()), encoding: .utf8)!
+            let variables: String
             let server_timestamps: Bool = true
             let doc_id: UInt64 = 8761125853933541
         }
         
-        AF.request("https://www.instagram.com/graphql/query", method: .post, parameters: Parameters(), encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+        AF.request("https://www.instagram.com/graphql/query", method: .post, parameters: Parameters(variables: Variables(after: after, before: before)), encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
             typealias StrDict = [String: Any];
             
             switch response.result {
                 case .success(let value):
                     if let JSON = value as? StrDict {
+                        print(JSON)
                         var posts: [Post] = [];
                         
                         let data = JSON["data"] as! StrDict
@@ -132,38 +144,41 @@ class InstagramProvider: ObservableObject {
                                 let userImage = owner["profile_pic_url"] as? String ?? ""
                                 let username = owner["username"] as? String ?? ""
 
-                                var images: [(url: String, width: Int, height: Int)] = []
-                                
-                                if media["carousel_media"] is NSNull {
+                                var allMedia: [MediaItem] = [] // Also includes videos
+
+                                if !(media["video_versions"] is NSNull) {
+                                    let singleVideoURL = ((media["video_versions"] as! [Any])[0] as! StrDict)["url"] as! String
+                                    let imageWidth = ((media["video_versions"] as! [Any])[0] as! StrDict)["width"] as! Int
+                                    let imageHeight = ((media["video_versions"] as! [Any])[0] as! StrDict)["height"] as! Int
+
+                                    allMedia.append(MediaItem(url: singleVideoURL, postType: .video, width: imageWidth, height: imageHeight))
+                                } else if media["carousel_media"] is NSNull {
                                     let singleImageURL = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["url"] as! String
                                     let imageWidth = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["width"] as! Int
                                     let imageHeight = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["height"] as! Int
 
-                                    images.append((url: singleImageURL, width: imageWidth, height: imageHeight))
-                                } else {
+                                    allMedia.append(MediaItem(url: singleImageURL, postType: .photo, width: imageWidth, height: imageHeight))
+                                }
+                                
+                                if !(media["carousel_media"] is NSNull) {
                                     for image in media["carousel_media"] as! [Any] {
                                         let imageVersions2 = (image as! StrDict)["image_versions2"] as! StrDict
                                         let imageURL = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["url"] as! String
                                         let imageWidth = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["width"] as! Int
                                         let imageHeight = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["height"] as! Int
-                                        images.append((url: imageURL, width: imageWidth, height: imageHeight))
+
+                                        allMedia.append(MediaItem(url: imageURL, postType: .photo, width: imageWidth, height: imageHeight))
                                     }
                                 }
                                 
                                 let caption = (media["caption"] as! StrDict)["text"] as? String ?? ""
-                                
-                                var imageMedia = images.map { url, width, height in
-                                    MediaItem(url: url, postType: .photo, width: width, height: height)
-                                }
-                                
-                                var allMedia = imageMedia
-                                
+                                                                
                                 var post = Post(likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram)
                                 
                                 posts.append(post)
                             }
                         }
-                      
+                        
                         completionBlock(posts)
                     }
                 case .failure(let error):
