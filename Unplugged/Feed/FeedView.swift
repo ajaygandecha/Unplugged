@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct HomeView: View {
+struct FeedView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -32,5 +32,5 @@ struct HomeView: View {
 }
 
 #Preview {
-    HomeView()
+    FeedView()
 }
