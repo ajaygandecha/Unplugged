@@ -8,12 +8,43 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @State private var isConnectAccountExpanded: Bool = false;
+    @State private var isInstagramConnected: Bool = false;
+    @State private var isFacebookConnected: Bool = false;
+    
+    @State private var showAccountInfo: Bool = false;
+    @State private var showLikes: Bool = false;
+
     var body: some View {
         NavigationStack {
             List {
-                HStack {
-
+                DisclosureGroup(isExpanded: $isConnectAccountExpanded) {
+                    HStack() {
+                        HStack {
+                            Image("instagram").resizable()
+                                .frame(width: 24, height: 24)
+                            Text("Instagram")
+                        }
+                        Spacer()
+                        Button(action: {}) {
+                            !isInstagramConnected ? Text("Connect") : Text("Disconnect")
+                        }
+                    }
+                    HStack() {
+                        HStack {
+                            Image("facebook").resizable()
+                                .frame(width: 24, height: 24)
+                            Text("Facebook")
+                        }
+                        Spacer()
+                        Button(action: {}) {
+                            !isFacebookConnected ? Text("Connect") : Text("Disconnect")
+                        }
+                    }
+                } label: {
+                    Label("Connect Accounts", systemImage: "person.crop.square")
                 }
+                Toggle(isOn: $showLikes, label: { Label("Display Likes", systemImage: "heart") })
             }
             .navigationTitle("Settings")
         }
