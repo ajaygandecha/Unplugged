@@ -15,6 +15,20 @@ enum ServiceType: String, Identifiable {
     
     var id: String { rawValue }
     
+    var name: String {
+        switch self {
+            case .instagram_login, .instagram_logout: return "Instagram"
+            case .facebook_login, .facebook_logout: return "Facebook"
+        }
+    }
+    
+    var logo: String {
+        switch self {
+            case .instagram_login, .instagram_logout: return "instagram"
+            case .facebook_login, .facebook_logout: return "facebook"
+        }
+    }
+    
     var url: URL {
         switch self {
             case .instagram_login: return URL(string: "https://www.instagram.com/accounts/login/")!
@@ -23,6 +37,7 @@ enum ServiceType: String, Identifiable {
             case .facebook_logout: return URL(string: "https://www.facebook.com/logout")!
         }
     }
+
 }
 
 struct ConnectServiceView: View {
@@ -58,5 +73,5 @@ struct ConnectServiceView: View {
 }
 
 #Preview {
-    ConnectServiceView()
+    ConnectServiceView(service: .instagram_login)
 }
