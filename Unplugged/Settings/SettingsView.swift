@@ -12,8 +12,9 @@ class AppSettings: ObservableObject {
 }
 
 struct SettingsView: View {
+    @EnvironmentObject var instagramProvider: InstagramProvider
+    
     @State private var isConnectAccountExpanded: Bool = false
-    @State private var isInstagramConnected: Bool = false
     @State private var isFacebookConnected: Bool = false
     
     @EnvironmentObject var appSettings: AppSettings
@@ -33,13 +34,13 @@ struct SettingsView: View {
                         }
                         Spacer()
                         Button {
-                            if isInstagramConnected {
+                            if instagramProvider.authState == .loggedIn {
                                 
                             } else {
                                 connectAccountSheetConnection = .instagram
                             }
                         } label: {
-                            !isInstagramConnected ? Text("Connect") : Text("Disconnect")
+                            instagramProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
                         }
                     }
                     HStack() {

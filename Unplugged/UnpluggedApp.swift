@@ -15,6 +15,7 @@ struct UnpluggedApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(appSettings)
+                .environmentObject(InstagramProvider())
         }
     }
 }

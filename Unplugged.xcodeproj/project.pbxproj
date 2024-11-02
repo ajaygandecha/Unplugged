@@ -20,6 +20,8 @@
 		4F30FD162CD67D8B0085FD89 /* UnpluggedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FD152CD67D8B0085FD89 /* UnpluggedTests.swift */; };
 		4F30FD202CD67D8B0085FD89 /* UnpluggedUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FD1F2CD67D8B0085FD89 /* UnpluggedUITests.swift */; };
 		4F30FD222CD67D8B0085FD89 /* UnpluggedUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FD212CD67D8B0085FD89 /* UnpluggedUITestsLaunchTests.swift */; };
+		4F353DFD2CD6CD74008B185F /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 4F353DFC2CD6CD74008B185F /* Alamofire */; };
+		4F353E002CD6CD9A008B185F /* InstagramProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F353DFF2CD6CD9A008B185F /* InstagramProvider.swift */; };
 		DED189272CD6911000C207CA /* CommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED189262CD6910C00C207CA /* CommentsView.swift */; };
 		DED189292CD695C500C207CA /* CommentItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED189282CD695C200C207CA /* CommentItemView.swift */; };
 		DED1892B2CD6983B00C207CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED1892A2CD6983900C207CA /* Comment.swift */; };
@@ -61,6 +63,7 @@
 		4F30FD1B2CD67D8B0085FD89 /* UnpluggedUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnpluggedUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F30FD1F2CD67D8B0085FD89 /* UnpluggedUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnpluggedUITests.swift; sourceTree = "<group>"; };
 		4F30FD212CD67D8B0085FD89 /* UnpluggedUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnpluggedUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		4F353DFF2CD6CD9A008B185F /* InstagramProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramProvider.swift; sourceTree = "<group>"; };
 		DED189262CD6910C00C207CA /* CommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsView.swift; sourceTree = "<group>"; };
 		DED189282CD695C200C207CA /* CommentItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentItemView.swift; sourceTree = "<group>"; };
 		DED1892A2CD6983900C207CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -72,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F353DFD2CD6CD74008B185F /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,6 +107,7 @@
 		4ED96C7D2CD67F6A00095A33 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				4F353E032CD6CE48008B185F /* Services */,
 				DED1892A2CD6983900C207CA /* Comment.swift */,
 				DED189262CD6910C00C207CA /* CommentsView.swift */,
 				DED189282CD695C200C207CA /* CommentItemView.swift */,
@@ -183,6 +188,22 @@
 			path = UnpluggedUITests;
 			sourceTree = "<group>";
 		};
+		4F353DFE2CD6CD88008B185F /* Providers */ = {
+			isa = PBXGroup;
+			children = (
+				4F353DFF2CD6CD9A008B185F /* InstagramProvider.swift */,
+			);
+			path = Providers;
+			sourceTree = "<group>";
+		};
+		4F353E032CD6CE48008B185F /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				4F353DFE2CD6CD88008B185F /* Providers */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -199,6 +220,9 @@
 			dependencies = (
 			);
 			name = Unplugged;
+			packageProductDependencies = (
+				4F353DFC2CD6CD74008B185F /* Alamofire */,
+			);
 			productName = Unplugged;
 			productReference = 4F30FD002CD67D890085FD89 /* Unplugged.app */;
 			productType = "com.apple.product-type.application";
@@ -271,6 +295,9 @@
 				Base,
 			);
 			mainGroup = 4F30FCF72CD67D890085FD89;
+			packageReferences = (
+				4F353DFB2CD6CD74008B185F /* XCRemoteSwiftPackageReference "Alamofire" */,
+			);
 			productRefGroup = 4F30FD012CD67D890085FD89 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -316,6 +343,7 @@
 				4F30FD062CD67D890085FD89 /* ContentView.swift in Sources */,
 				4E32F2E22CD696D000D2B6B5 /* WebView.swift in Sources */,
 				4ED96C822CD6824700095A33 /* Post.swift in Sources */,
+				4F353E002CD6CD9A008B185F /* InstagramProvider.swift in Sources */,
 				4E32F2CD2CD6968300D2B6B5 /* ConnectServiceView.swift in Sources */,
 				4F30FD042CD67D890085FD89 /* UnpluggedApp.swift in Sources */,
 				4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */,
@@ -484,7 +512,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = 9ZR87Z2AF9;
+				DEVELOPMENT_TEAM = 2H58R69UA7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -522,7 +550,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = 9ZR87Z2AF9;
+				DEVELOPMENT_TEAM = 2H58R69UA7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -681,6 +709,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4F353DFB2CD6CD74008B185F /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.10.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4F353DFC2CD6CD74008B185F /* Alamofire */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4F353DFB2CD6CD74008B185F /* XCRemoteSwiftPackageReference "Alamofire" */;
+			productName = Alamofire;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 4F30FCF82CD67D890085FD89 /* Project object */;
 }
