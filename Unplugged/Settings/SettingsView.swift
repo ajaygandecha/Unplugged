@@ -2,7 +2,7 @@
 //  SettingsView.swift
 //  Unplugged
 //
-//  Created by Ajay Gandecha on 11/2/24.
+//  Created by Ajay Gandecha and Jade Keegan on 11/2/24.
 //
 
 import SwiftUI
