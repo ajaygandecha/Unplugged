@@ -40,7 +40,7 @@ class InstagramProvider: ObservableObject {
         return
     }
 
-    func fetchPosts(after: String, before: String) {
+    func fetchPosts(after: String, before: String, completionBlock: @escaping ([Post]) -> Void) {
         struct VariableData: Encodable {
             let device_id: String = "528471E5-D166-4197-ABC9-ACA510B10649"
             let is_async_ads_double_request: String = "0"
@@ -109,15 +109,49 @@ class InstagramProvider: ObservableObject {
         }
         
         AF.request("https://www.instagram.com/graphql/query", method: .post, parameters: Parameters(), encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+            typealias StrDict = [String: Any];
+            
             switch response.result {
                 case .success(let value):
-                    if let JSON = value as? [String: Any] {
-                        print(JSON)
-                        let data = JSON["data"] as! [String: Any]
-                        let feed = data["xdt_api__v1__feed__timeline__connection"] as! [String: Any]
-//                        let edges = data["edges"] as [Any]
-//                        let firstPost = edges[0]
-//                        print(firstPost)
+                    if let JSON = value as? StrDict {
+                        var posts: [Post] = [];
+                        
+                        let data = JSON["data"] as! StrDict
+                        let feed = data["xdt_api__v1__feed__timeline__connection"] as! StrDict
+                        let edges = feed["edges"] as! [Any]
+                        for e in edges {
+                            let edge = e as! StrDict
+                            let node = edge["node"] as! StrDict
+                            
+                            if !(node["media"] is NSNull) {
+                                let media = node["media"] as! StrDict
+                                let owner = media["owner"] as! StrDict
+                                
+                                // owner["friendship_status"] = {following: bool} for mutuals
+                                let likeCount = media["like_count"] as? Int ?? 0
+                                let userImage = owner["profile_pic_url"] as? String ?? ""
+                                var images: [String] = []
+                                
+                                if media["carousel_media"] is NSNull {
+                                    let singleImageURL = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["url"] as! String
+                                    images.append(singleImageURL)
+                                } else {
+                                    for image in media["carousel_media"] as! [Any] {
+                                        let imageVersions2 = (image as! StrDict)["image_versions2"] as! StrDict
+                                        let imageURL = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["url"] as! String
+                                        images.append(imageURL)
+                                    }
+                                }
+                                
+                                let caption = (media["caption"] as! StrDict)["text"] as? String ?? ""
+                                
+                                var post = Post(likeCount: likeCount, userImage: userImage, username: userImage, images: images, body: caption, source: .instagram)
+                                
+                                posts.append(post)
+                            }
+                        }
+                      
+                        completionBlock(posts)
                     }
                 case .failure(let error):
                     print(error)

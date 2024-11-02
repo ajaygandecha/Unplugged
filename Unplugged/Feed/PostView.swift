@@ -55,11 +55,23 @@ struct PostView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(post.userImage)
-                    .resizable()
-                    .frame(width: 48, height: 48)
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(Circle())
+                
+                AsyncImage(url: URL(string: post.userImage)) { result in
+                    result.image?
+                        .resizable()
+                        .frame(width: 48, height: 48)
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(Circle())
+
+                }
+                .frame(width: 48, height: 48)
+                
+//                AsyncImage(url: URL(string: post.username)!)
+//                    .resizable()
+//                    .frame(width: 48, height: 48)
+//                    .aspectRatio(contentMode: .fit)
+//                    .clipShape(Circle())
+                
                 VStack(alignment: .leading, spacing: 0) {
                     Text(post.username)
                         .bold()
@@ -84,10 +96,16 @@ struct PostView: View {
                 
                 TabView {
                     ForEach(post.images, id: \.self) {
-                        image in
-                        Image(image)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
+                        imageUrl in
+                        
+                        AsyncImage(url: URL(string: imageUrl)!) { result in
+                            result.image?
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+
+                        }
+                        .frame(width: geometry.size.width, height: geometry.size.width)
+
                     }
                 }
                 .tabViewStyle(.page)

@@ -10,6 +10,8 @@ import SwiftUI
 struct FeedView: View {
     var posts: [Post] = []
     
+    @EnvironmentObject var feedService: FeedService
+    
     @State private var filterSelection = "All Posts"
     
     var body: some View {
@@ -19,7 +21,7 @@ struct FeedView: View {
                     ZStack {
                         ScrollView {
                             ForEach(
-                                filterSelection == "All Posts" ? posts : posts.filter { post in post.source.name == filterSelection}
+                                filterSelection == "All Posts" ? feedService.feed : posts.filter { post in post.source.name == filterSelection}
                             ) {
                                 post in
                                 PostView(post: post, geometry: geometry).padding(.top, 8)
