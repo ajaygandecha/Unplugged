@@ -130,22 +130,35 @@ class InstagramProvider: ObservableObject {
                                 // owner["friendship_status"] = {following: bool} for mutuals
                                 let likeCount = media["like_count"] as? Int ?? 0
                                 let userImage = owner["profile_pic_url"] as? String ?? ""
-                                var images: [String] = []
+                                let username = owner["username"] as? String ?? ""
+
+                                var images: [(url: String, width: Int, height: Int)] = []
                                 
                                 if media["carousel_media"] is NSNull {
                                     let singleImageURL = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["url"] as! String
-                                    images.append(singleImageURL)
+                                    let imageWidth = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["width"] as! Int
+                                    let imageHeight = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["height"] as! Int
+
+                                    images.append((url: singleImageURL, width: imageWidth, height: imageHeight))
                                 } else {
                                     for image in media["carousel_media"] as! [Any] {
                                         let imageVersions2 = (image as! StrDict)["image_versions2"] as! StrDict
                                         let imageURL = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["url"] as! String
-                                        images.append(imageURL)
+                                        let imageWidth = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["width"] as! Int
+                                        let imageHeight = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["height"] as! Int
+                                        images.append((url: imageURL, width: imageWidth, height: imageHeight))
                                     }
                                 }
                                 
                                 let caption = (media["caption"] as! StrDict)["text"] as? String ?? ""
                                 
-                                var post = Post(likeCount: likeCount, userImage: userImage, username: userImage, images: images, body: caption, source: .instagram)
+                                var imageMedia = images.map { url, width, height in
+                                    MediaItem(url: url, postType: .photo, width: width, height: height)
+                                }
+                                
+                                var allMedia = imageMedia
+                                
+                                var post = Post(likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram)
                                 
                                 posts.append(post)
                             }

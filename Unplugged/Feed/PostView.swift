@@ -92,16 +92,29 @@ struct PostView: View {
             .padding(.horizontal, 16)
             
             if (hasMedia) {
-                let firstMediaItem = UIImage(named: post.media[0].url)!
-                let heightMultiple = firstMediaItem.size.height / firstMediaItem.size.width
+                let firstMediaItem = post.media.first!
+                let heightMultiple = Double(firstMediaItem.height) / Double(firstMediaItem.width)
                 
                 TabView {
                     ForEach(post.media, id: \.url) { media in
                         switch media.postType {
                             case .photo:
-                                Image(media.url)
+                            
+                            AsyncImage(url: URL(string: media.url)!) { result in
+                                result.image?
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
+
+                            }
+                            .frame(width: geometry.size.width, height: geometry.size.width)
+
+                            
+//                            AsyncImage(url: URL(string: media.url)!) { result in
+//                                result.image
+//                            }
+//                                Image(media.url)
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fill)
                             case .video:
                                 let player = AVPlayer(url: URL(string: media.url)!)
                                 VideoPlayer(player: player)
@@ -166,13 +179,13 @@ struct PostView: View {
     }
 }
 
-#Preview {
-    GeometryReader { geometry in
-        PostView(post: Post(likeCount: 10, userImage: "sample", username: "@KrisJordan", media: [
-            MediaItem(url: "squarepost", postType: .photo),
-            MediaItem(url: "post", postType: .photo),
-            MediaItem(url: "tallpost", postType: .photo),
-            MediaItem(url: "https://scontent.cdninstagram.com/o1/v/t16/f2/m69/AQNTtQnQEvVWKV_9Rb4Wa5MXOIH-hf74ORe0NeLhOQSr0u0A0CpoQAUUP8pN27QF9gv_sFHFeGOzeReEBb7R7ev5.mp4?efg=eyJ4cHZfYXNzZXRfaWQiOjkyNjM2NTA5NjA2NTcxMiwidmVuY29kZV90YWciOiJ4cHZfcHJvZ3Jlc3NpdmUuSU5TVEFHUkFNLkNBUk9VU0VMX0lURU0uQzMuMTA4MC5kYXNoX2Jhc2VsaW5lXzEwODBwX3YxIn0&_nc_ht=scontent.cdninstagram.com&_nc_cat=108&strext=1&vs=150906308ef8f165&_nc_vs=HBksFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HTlk3SkFPWEJxWXBSRndGQUNwSUtscm9TT0VWYnBSMUFBQUYVAALIAQAVAhg6cGFzc3Rocm91Z2hfZXZlcnN0b3JlL0dFVUV3QnN4SllacnhDa09BQ1BYdTdkRmJnNEVia1lMQUFBRhUCAsgBACgAGAAbAogHdXNlX29pbAExEnByb2dyZXNzaXZlX3JlY2lwZQExFQAAJuDq3efFoaUDFQIoAkMzLBdAEAAAAAAAABgWZGFzaF9iYXNlbGluZV8xMDgwcF92MREAde4HAA&ccb=9-4&oh=00_AYCJkgtBzyD5rhXRhPHlKn-r-dOxUmv3d06bY0tcxV1wtQ&oe=672845E1&_nc_sid=1d576d", postType: .video)
-        ], body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", source: .instagram), geometry: geometry).environmentObject(AppSettings())
-    }
-}
+//#Preview {
+//    GeometryReader { geometry in
+//        PostView(post: Post(likeCount: 10, userImage: "sample", username: "@KrisJordan", media: [
+//            MediaItem(url: "squarepost", postType: .photo),
+//            MediaItem(url: "post", postType: .photo),
+//            MediaItem(url: "tallpost", postType: .photo),
+//            MediaItem(url: "https://scontent.cdninstagram.com/o1/v/t16/f2/m69/AQNTtQnQEvVWKV_9Rb4Wa5MXOIH-hf74ORe0NeLhOQSr0u0A0CpoQAUUP8pN27QF9gv_sFHFeGOzeReEBb7R7ev5.mp4?efg=eyJ4cHZfYXNzZXRfaWQiOjkyNjM2NTA5NjA2NTcxMiwidmVuY29kZV90YWciOiJ4cHZfcHJvZ3Jlc3NpdmUuSU5TVEFHUkFNLkNBUk9VU0VMX0lURU0uQzMuMTA4MC5kYXNoX2Jhc2VsaW5lXzEwODBwX3YxIn0&_nc_ht=scontent.cdninstagram.com&_nc_cat=108&strext=1&vs=150906308ef8f165&_nc_vs=HBksFQIYOnBhc3N0aHJvdWdoX2V2ZXJzdG9yZS9HTlk3SkFPWEJxWXBSRndGQUNwSUtscm9TT0VWYnBSMUFBQUYVAALIAQAVAhg6cGFzc3Rocm91Z2hfZXZlcnN0b3JlL0dFVUV3QnN4SllacnhDa09BQ1BYdTdkRmJnNEVia1lMQUFBRhUCAsgBACgAGAAbAogHdXNlX29pbAExEnByb2dyZXNzaXZlX3JlY2lwZQExFQAAJuDq3efFoaUDFQIoAkMzLBdAEAAAAAAAABgWZGFzaF9iYXNlbGluZV8xMDgwcF92MREAde4HAA&ccb=9-4&oh=00_AYCJkgtBzyD5rhXRhPHlKn-r-dOxUmv3d06bY0tcxV1wtQ&oe=672845E1&_nc_sid=1d576d", postType: .video)
+//        ], body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", source: .instagram), geometry: geometry).environmentObject(AppSettings())
+//    }
+//}

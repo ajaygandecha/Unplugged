@@ -24,4 +24,6 @@ enum MediaType {
 struct MediaItem {
     let url: String
     let postType: MediaType
+    let width: Int
+    let height: Int
 }
