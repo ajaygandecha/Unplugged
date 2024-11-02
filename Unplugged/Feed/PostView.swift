@@ -10,7 +10,7 @@ import AVKit
 
 struct PostView: View {
     
-    var post: Post!
+    @State var post: Post!
     var geometry: GeometryProxy!
     
     var hasMedia: Bool {
@@ -23,10 +23,11 @@ struct PostView: View {
     @ViewBuilder var postActions: some View {
         HStack {
             Button {
-                //
+                post.likeCount = post.liked ? post.likeCount - 1 : post.likeCount + 1
+                post.liked.toggle()
             } label: {
                 HStack {
-                    Image(systemName: "heart")
+                    Image(systemName: post.liked ? "heart.fill" : "heart")
                         .font(.system(size: 24))
                         .frame(width: 36, height: 36)
                         .foregroundColor(.accentColor)
@@ -156,7 +157,7 @@ struct PostView: View {
 
 #Preview {
     GeometryReader { geometry in
-        PostView(post: Post(likeCount: 10, userImage: "sample", username: "@KrisJordan", media: [
+        PostView(post: Post(liked: false, likeCount: 10, userImage: "sample", username: "@KrisJordan", media: [
             MediaItem(url: "squarepost", postType: .photo),
             MediaItem(url: "post", postType: .photo),
             MediaItem(url: "tallpost", postType: .photo),
