@@ -15,9 +15,12 @@ struct SettingsView: View {
     @State private var showAccountInfo: Bool = false;
     @State private var showLikes: Bool = false;
 
+    @State private var connectAccountSheetConnection: ServiceType?
+    
     var body: some View {
         NavigationStack {
             List {
+                
                 DisclosureGroup(isExpanded: $isConnectAccountExpanded) {
                     HStack() {
                         HStack {
@@ -26,7 +29,13 @@ struct SettingsView: View {
                             Text("Instagram")
                         }
                         Spacer()
-                        Button(action: {}) {
+                        Button {
+                            if isInstagramConnected {
+                                
+                            } else {
+                                connectAccountSheetConnection = .instagram
+                            }
+                        } label: {
                             !isInstagramConnected ? Text("Connect") : Text("Disconnect")
                         }
                     }
@@ -47,6 +56,9 @@ struct SettingsView: View {
                 Toggle(isOn: $showLikes, label: { Label("Display Likes", systemImage: "heart") })
             }
             .navigationTitle("Settings")
+            .sheet(item: $connectAccountSheetConnection) { account in
+                ConnectServiceView(service: account)
+            }
         }
     }
 }

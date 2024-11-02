@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E32F2CD2CD6968300D2B6B5 /* ConnectServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E32F2CC2CD6968300D2B6B5 /* ConnectServiceView.swift */; };
+		4E32F2E22CD696D000D2B6B5 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E32F2E12CD696D000D2B6B5 /* WebView.swift */; };
 		4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C692CD67E5B00095A33 /* FeedView.swift */; };
 		4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */; };
 		4ED96C802CD6814E00095A33 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C7F2CD6814E00095A33 /* PostView.swift */; };
@@ -38,6 +40,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4E32F2CC2CD6968300D2B6B5 /* ConnectServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectServiceView.swift; sourceTree = "<group>"; };
+		4E32F2E12CD696D000D2B6B5 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		4ED96C692CD67E5B00095A33 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4ED96C7F2CD6814E00095A33 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -80,6 +84,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4E32F2CE2CD6968A00D2B6B5 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				4E32F2E12CD696D000D2B6B5 /* WebView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 		4ED96C7D2CD67F6A00095A33 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */,
+				4E32F2CC2CD6968300D2B6B5 /* ConnectServiceView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -121,6 +134,7 @@
 		4F30FD022CD67D890085FD89 /* Unplugged */ = {
 			isa = PBXGroup;
 			children = (
+				4E32F2CE2CD6968A00D2B6B5 /* Views */,
 				4F30FD032CD67D890085FD89 /* UnpluggedApp.swift */,
 				4F30FD052CD67D890085FD89 /* ContentView.swift */,
 				4ED96C7D2CD67F6A00095A33 /* Feed */,
@@ -288,7 +302,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F30FD062CD67D890085FD89 /* ContentView.swift in Sources */,
+				4E32F2E22CD696D000D2B6B5 /* WebView.swift in Sources */,
 				4ED96C822CD6824700095A33 /* Post.swift in Sources */,
+				4E32F2CD2CD6968300D2B6B5 /* ConnectServiceView.swift in Sources */,
 				4F30FD042CD67D890085FD89 /* UnpluggedApp.swift in Sources */,
 				4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */,
 				4ED96C802CD6814E00095A33 /* PostView.swift in Sources */,
