@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct SettingsView: View {
-    @State private var isConnectAccountExpanded: Bool = true;
+    @State private var isConnectAccountExpanded: Bool = false;
     @State private var isInstagramConnected: Bool = false;
     @State private var isFacebookConnected: Bool = false;
+    
+    @State private var showAccountInfo: Bool = false;
     @State private var showLikes: Bool = false;
 
     var body: some View {
@@ -18,14 +20,22 @@ struct SettingsView: View {
             List {
                 DisclosureGroup(isExpanded: $isConnectAccountExpanded) {
                     HStack() {
-                        Text("Instagram")
+                        HStack {
+                            Image("instagram").resizable()
+                                .frame(width: 24, height: 24)
+                            Text("Instagram")
+                        }
                         Spacer()
                         Button(action: {}) {
                             !isInstagramConnected ? Text("Connect") : Text("Disconnect")
                         }
                     }
                     HStack() {
-                        Text("Facebook")
+                        HStack {
+                            Image("facebook").resizable()
+                                .frame(width: 24, height: 24)
+                            Text("Facebook")
+                        }
                         Spacer()
                         Button(action: {}) {
                             !isFacebookConnected ? Text("Connect") : Text("Disconnect")
