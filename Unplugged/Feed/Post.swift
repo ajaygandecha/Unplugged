@@ -12,7 +12,16 @@ struct Post: Identifiable {
     let likeCount: Int
     let userImage : String
     let username: String
-    let images: [String]
+    let media: [MediaItem]
     let body: String
     let source: ServiceType
+}
+
+enum MediaType {
+    case photo, video
+}
+
+struct MediaItem {
+    let url: String
+    let postType: MediaType
 }
