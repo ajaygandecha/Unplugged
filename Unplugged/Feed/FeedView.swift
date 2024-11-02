@@ -8,30 +8,50 @@
 import SwiftUI
 
 struct FeedView: View {
+    var posts: [Post] = []
+    
+    @State private var filterSelection = "All Posts"
+    
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                ScrollView {
-                    Divider()
-                    PostView(post:Post(userImage: "sample", username: "@krisjordan", image: "post", body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."), geometry: geometry)
-                        .padding(.top, 8)
-                    PostView(post:Post(userImage: "sample", username: "@krisjordan", image: "post", body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."), geometry: geometry)
-                        .padding(.top, 8)
-                    PostView(post:Post(userImage: "sample", username: "@krisjordan", image: "post", body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."), geometry: geometry)
-                        .padding(.top, 8)
+                VStack(alignment: .leading) {
+                    ZStack {
+                        ScrollView {
+                            ForEach(
+                                filterSelection == "All Posts" ? posts : posts.filter { post in post.source.name == filterSelection}
+                            ) {
+                                post in
+                                PostView(post: post, geometry: geometry).padding(.top, 8)
+                            }
+                        }
+                    }
                 }
                 .navigationTitle("Unplugged")
                 .toolbar {
+                    
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button(action: {}) {
-                            NavigationLink {
-                                SettingsView()
+                        HStack {
+                            Menu {
+                                Picker("Filter Picker", selection: $filterSelection) {
+                                    Text("All Posts").tag("All Posts")
+                                    ForEach(ServiceType.allCases) { serviceType in
+                                        Text(serviceType.name).tag(serviceType.name)
+                                    }}
                             } label: {
-                                Image(systemName: "gear")
+                                Image(systemName: "slider.horizontal.3")
                             }
 
+                            Button(action: {}) {
+                                NavigationLink {
+                                    SettingsView()
+                                } label: {
+                                    Image(systemName: "gear")
+                                }
+                                
+                            }
                         }
-
+                        
                     }
                 }
             }
@@ -40,5 +60,8 @@ struct FeedView: View {
 }
 
 #Preview {
-    FeedView()
+    FeedView(posts: [
+        Post(likeCount: 10, userImage: "sample", username: "@krisjordan", image: "post", body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", source: .instagram),
+        Post(likeCount: 15, userImage: "sample", username: "@krisjordan", image: nil, body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", source: .facebook),
+        Post(likeCount: 40, userImage: "sample", username: "@krisjordan", image: "post", body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", source: .instagram)]).environmentObject(AppSettings())
 }

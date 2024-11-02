@@ -7,11 +7,25 @@
 
 import SwiftUI
 
-enum ServiceType: String, Identifiable {
+enum ServiceType: String, Identifiable, CaseIterable {
     case instagram
     case facebook
     
     var id: String { rawValue }
+    
+    var name: String {
+        switch self {
+            case .instagram: return "Instagram"
+            case .facebook: return "Facebook"
+        }
+    }
+    
+    var logo: String {
+        switch self {
+            case .instagram: return "instagram"
+            case .facebook: return "facebook"
+        }
+    }
     
     var url: URL {
         switch self {
@@ -19,6 +33,7 @@ enum ServiceType: String, Identifiable {
             case .facebook: return URL(string: "https://facebook.com")!
         }
     }
+
 }
 
 struct ConnectServiceView: View {
@@ -50,5 +65,5 @@ struct ConnectServiceView: View {
 }
 
 #Preview {
-    ConnectServiceView()
+    ConnectServiceView(service: .instagram)
 }
