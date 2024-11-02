@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C692CD67E5B00095A33 /* FeedView.swift */; };
 		4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */; };
+		4ED96C802CD6814E00095A33 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C7F2CD6814E00095A33 /* PostView.swift */; };
+		4ED96C822CD6824700095A33 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C812CD6824400095A33 /* Post.swift */; };
 		4F30FD042CD67D890085FD89 /* UnpluggedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FD032CD67D890085FD89 /* UnpluggedApp.swift */; };
 		4F30FD062CD67D890085FD89 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FD052CD67D890085FD89 /* ContentView.swift */; };
 		4F30FD082CD67D8A0085FD89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F30FD072CD67D8A0085FD89 /* Assets.xcassets */; };
@@ -38,10 +40,12 @@
 /* Begin PBXFileReference section */
 		4ED96C692CD67E5B00095A33 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4ED96C7F2CD6814E00095A33 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
+		4ED96C812CD6824400095A33 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		4F30FD002CD67D890085FD89 /* Unplugged.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unplugged.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F30FD032CD67D890085FD89 /* UnpluggedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnpluggedApp.swift; sourceTree = "<group>"; };
 		4F30FD052CD67D890085FD89 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		4F30FD072CD67D8A0085FD89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F30FD072CD67D8A0085FD89 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Assets.xcassets; path = Unplugged/Assets.xcassets; sourceTree = SOURCE_ROOT; };
 		4F30FD092CD67D8A0085FD89 /* Unplugged.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Unplugged.entitlements; sourceTree = "<group>"; };
 		4F30FD0B2CD67D8A0085FD89 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		4F30FD112CD67D8B0085FD89 /* UnpluggedTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UnpluggedTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -79,7 +83,9 @@
 		4ED96C7D2CD67F6A00095A33 /* Feed */ = {
 			isa = PBXGroup;
 			children = (
+				4ED96C812CD6824400095A33 /* Post.swift */,
 				4ED96C692CD67E5B00095A33 /* FeedView.swift */,
+				4ED96C7F2CD6814E00095A33 /* PostView.swift */,
 			);
 			path = Feed;
 			sourceTree = "<group>";
@@ -282,8 +288,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F30FD062CD67D890085FD89 /* ContentView.swift in Sources */,
+				4ED96C822CD6824700095A33 /* Post.swift in Sources */,
 				4F30FD042CD67D890085FD89 /* UnpluggedApp.swift in Sources */,
 				4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */,
+				4ED96C802CD6814E00095A33 /* PostView.swift in Sources */,
 				4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -444,7 +452,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = 2H58R69UA7;
+				DEVELOPMENT_TEAM = 9ZR87Z2AF9;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -482,7 +490,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = 2H58R69UA7;
+				DEVELOPMENT_TEAM = 9ZR87Z2AF9;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;

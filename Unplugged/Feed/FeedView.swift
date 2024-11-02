@@ -11,7 +11,7 @@ struct FeedView: View {
     var body: some View {
         NavigationStack {
             ScrollView {
-                
+                PostView(post: Post(userImage: "sample", username: "@krisjordan"))
             }
             .navigationTitle("Unplugged")
             .toolbar {

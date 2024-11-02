@@ -11,7 +11,9 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                
+                HStack {
+
+                }
             }
             .navigationTitle("Settings")
         }
