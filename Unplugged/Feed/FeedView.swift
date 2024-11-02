@@ -17,7 +17,7 @@ struct FeedView: View {
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     ZStack {
                         ScrollView {
                             ForEach(
@@ -28,32 +28,59 @@ struct FeedView: View {
                             }
                         }
                     }
-                }
-                .navigationTitle("Unplugged")
-                .toolbar {
-                    
-                    ToolbarItem(placement: .topBarTrailing) {
-                        HStack {
-                            Menu {
-                                Picker("Filter Picker", selection: $filterSelection) {
-                                    Text("All Posts").tag("All Posts")
-                                    ForEach(ServiceType.allCases) { serviceType in
-                                        Text(serviceType.name).tag(serviceType.name)
-                                    }}
-                            } label: {
-                                Image(systemName: "slider.horizontal.3")
-                            }
-
-                            Button(action: {}) {
-                                NavigationLink {
-                                    SettingsView()
-                                } label: {
-                                    Image(systemName: "gear")
+                    Divider()
+                    HStack {
+                        Button {
+                            filterSelection = "All Posts"
+                        } label: {
+                            let active = filterSelection == "All Posts";
+                            
+                            Image(systemName: "house")
+                                .font(.system(size: 24))
+                                .frame(width: 36, height: 36)
+                                .foregroundColor(.accentColor)
+                                .if(active) { $0.overlay(Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.blue), alignment: .bottom)
                                 }
                                 
-                            }
                         }
+                        .buttonStyle(.plain)
                         
+                        
+                        ForEach(ServiceType.allCases) { serviceType in
+                            Spacer()
+                            Button {
+                                filterSelection = serviceType.name
+                            } label: {
+                                let active = filterSelection == serviceType.name;
+                                
+                                Image(serviceType.logo + ".plain")
+                                    .resizable()
+                                    .frame(width: 24, height: 24)
+                                    .padding(6)
+                                    .foregroundColor(.accentColor)
+                                    .if(active) { $0.overlay(Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.blue), alignment: .bottom)
+                                    }
+                            }.buttonStyle(.plain)
+                        }
+                    }
+                    .padding(
+                        EdgeInsets(top: 8, leading: 40, bottom: 0, trailing: 40)
+                    )
+                    .navigationTitle("Unplugged")
+                    .toolbar {
+                        ToolbarItem(placement: .topBarTrailing) {
+                            HStack {
+                                Button(action: {}) {
+                                    NavigationLink {
+                                        SettingsView()
+                                    } label: {
+                                        Image(systemName: "gear")
+                                    }
+                                    
+                                }
+                            }
+                            
+                        }
                     }
                 }
             }
