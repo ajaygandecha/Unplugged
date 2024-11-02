@@ -40,7 +40,7 @@ class InstagramProvider: ObservableObject {
         return
     }
 
-    func fetchPosts(after: String, before: String) {
+    func fetchPosts(after: String, before: String, completionBlock: @escaping ([Post]) -> Void) {
         struct VariableData: Encodable {
             let device_id: String = "528471E5-D166-4197-ABC9-ACA510B10649"
             let is_async_ads_double_request: String = "0"
@@ -109,15 +109,62 @@ class InstagramProvider: ObservableObject {
         }
         
         AF.request("https://www.instagram.com/graphql/query", method: .post, parameters: Parameters(), encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+            typealias StrDict = [String: Any];
+            
             switch response.result {
                 case .success(let value):
-                    if let JSON = value as? [String: Any] {
-                        print(JSON)
-                        let data = JSON["data"] as! [String: Any]
-                        _ = data["xdt_api__v1__feed__timeline__connection"] as! [String: Any]
-//                        let edges = data["edges"] as [Any]
-//                        let firstPost = edges[0]
-//                        print(firstPost)
+                    if let JSON = value as? StrDict {
+                        var posts: [Post] = [];
+                        
+                        let data = JSON["data"] as! StrDict
+                        let feed = data["xdt_api__v1__feed__timeline__connection"] as! StrDict
+                        let edges = feed["edges"] as! [Any]
+                        for e in edges {
+                            let edge = e as! StrDict
+                            let node = edge["node"] as! StrDict
+                            
+                            if !(node["media"] is NSNull) {
+                                let media = node["media"] as! StrDict
+                                let owner = media["owner"] as! StrDict
+                                
+                                // owner["friendship_status"] = {following: bool} for mutuals
+                                let likeCount = media["like_count"] as? Int ?? 0
+                                let userImage = owner["profile_pic_url"] as? String ?? ""
+                                let username = owner["username"] as? String ?? ""
+
+                                var images: [(url: String, width: Int, height: Int)] = []
+                                
+                                if media["carousel_media"] is NSNull {
+                                    let singleImageURL = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["url"] as! String
+                                    let imageWidth = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["width"] as! Int
+                                    let imageHeight = (((media["image_versions2"] as! StrDict)["candidates"] as! [Any])[0] as! StrDict)["height"] as! Int
+
+                                    images.append((url: singleImageURL, width: imageWidth, height: imageHeight))
+                                } else {
+                                    for image in media["carousel_media"] as! [Any] {
+                                        let imageVersions2 = (image as! StrDict)["image_versions2"] as! StrDict
+                                        let imageURL = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["url"] as! String
+                                        let imageWidth = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["width"] as! Int
+                                        let imageHeight = ((imageVersions2["candidates"] as! [Any])[0] as! StrDict)["height"] as! Int
+                                        images.append((url: imageURL, width: imageWidth, height: imageHeight))
+                                    }
+                                }
+                                
+                                let caption = (media["caption"] as! StrDict)["text"] as? String ?? ""
+                                
+                                var imageMedia = images.map { url, width, height in
+                                    MediaItem(url: url, postType: .photo, width: width, height: height)
+                                }
+                                
+                                var allMedia = imageMedia
+                                
+                                var post = Post(likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram)
+                                
+                                posts.append(post)
+                            }
+                        }
+                      
+                        completionBlock(posts)
                     }
                 case .failure(let error):
                     print(error)

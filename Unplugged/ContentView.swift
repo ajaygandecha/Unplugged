@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    @EnvironmentObject var ig: InstagramProvider
+    
     var body: some View {
         FeedView()
     }

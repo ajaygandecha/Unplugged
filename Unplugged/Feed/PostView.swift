@@ -9,17 +9,17 @@ import SwiftUI
 import AVKit
 
 struct PostView: View {
-    
+
     @State var post: Post!
     var geometry: GeometryProxy!
-    
+
     var hasMedia: Bool {
         post.media.count > 0
     }
- 
+
     @EnvironmentObject var appSettings: AppSettings
     @State var isExpanded: Bool = false
-    
+
     @ViewBuilder var postActions: some View {
         HStack {
             Button {
@@ -31,7 +31,7 @@ struct PostView: View {
                         .font(.system(size: 24))
                         .frame(width: 36, height: 36)
                         .foregroundColor(.accentColor)
-                    
+
                     if (appSettings.showLikes) {
                         Text(post.likeCount.compacted)
                             .padding(.leading, -6)
@@ -39,7 +39,7 @@ struct PostView: View {
                 }
             }
             .buttonStyle(.plain)
-            
+
             Button {
                 //
             } label: {
@@ -47,21 +47,33 @@ struct PostView: View {
                     .font(.system(size: 22))
                     .frame(width: 36, height: 36)
                     .foregroundColor(.accentColor)
-                
+
             }
             .buttonStyle(.plain)
-            
+
         }.padding(.horizontal, 10)
     }
-    
+
     var body: some View {
         VStack(alignment: .leading) {
             HStack {
-                Image(post.userImage)
-                    .resizable()
-                    .frame(width: 48, height: 48)
-                    .aspectRatio(contentMode: .fit)
-                    .clipShape(Circle())
+
+                AsyncImage(url: URL(string: post.userImage)) { result in
+                    result.image?
+                        .resizable()
+                        .frame(width: 48, height: 48)
+                        .aspectRatio(contentMode: .fit)
+                        .clipShape(Circle())
+
+                }
+                .frame(width: 48, height: 48)
+
+//                AsyncImage(url: URL(string: post.username)!)
+//                    .resizable()
+//                    .frame(width: 48, height: 48)
+//                    .aspectRatio(contentMode: .fit)
+//                    .clipShape(Circle())
+
                 VStack(alignment: .leading, spacing: 0) {
                     Text(post.username)
                         .bold()
@@ -79,26 +91,39 @@ struct PostView: View {
                 Spacer()
             }
             .padding(.horizontal, 16)
-            
+
             if (hasMedia) {
-                let firstMediaItem = UIImage(named: post.media[0].url)!
-                let heightMultiple = firstMediaItem.size.height / firstMediaItem.size.width
-                
+                let firstMediaItem = post.media.first!
+                let heightMultiple = Double(firstMediaItem.height) / Double(firstMediaItem.width)
+
                 TabView {
                     ForEach(post.media, id: \.url) { media in
                         switch media.postType {
                             case .photo:
-                                Image(media.url)
+
+                            AsyncImage(url: URL(string: media.url)!) { result in
+                                result.image?
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
+
+                            }
+                            .frame(width: geometry.size.width, height: geometry.size.width)
+
+
+//                            AsyncImage(url: URL(string: media.url)!) { result in
+//                                result.image
+//                            }
+//                                Image(media.url)
+//                                    .resizable()
+//                                    .aspectRatio(contentMode: .fill)
                             case .video:
                                 let player = AVPlayer(url: URL(string: media.url)!)
                                 VideoPlayer(player: player)
                                 .onAppear {
                                     player.play()
                                 }
-                                
-                                
+
+
                                 // .resizable()
                                 // .aspectRatio(contentMode: .fill)
                         }
@@ -107,10 +132,10 @@ struct PostView: View {
                 .tabViewStyle(.page)
                 .indexViewStyle(.page(backgroundDisplayMode: .automatic))
                 .frame(width: geometry.size.width, height: geometry.size.width * heightMultiple)
-                
+
                 postActions
             }
-            
+
             Text(post.body)
                 .padding(.horizontal, 16)
                 .lineLimit(isExpanded ? nil : hasMedia ? 2 : 7)
@@ -124,7 +149,7 @@ struct PostView: View {
                                     .foregroundStyle(Color.secondary)
                                     .background(Color.white)
                                     .padding(.horizontal, 16)
-                                    
+
                             }
                             .frame(width: textGeometry.size.width, height: textGeometry.size.height, alignment: .bottomTrailing)
                         }
@@ -137,14 +162,14 @@ struct PostView: View {
                                     .foregroundStyle(Color.secondary)
                                     .background(Color.white)
                                     .padding(.horizontal, 16)
-                                    
+
                             }
                             .frame(width: textGeometry.size.width, height: textGeometry.size.height, alignment: .bottomTrailing)
                         }
                     }
-                    
+
                 }
-            
+
             if (!hasMedia) {
                 postActions
             }

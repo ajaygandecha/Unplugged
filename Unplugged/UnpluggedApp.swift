@@ -11,11 +11,14 @@ import SwiftUI
 struct UnpluggedApp: App {
     @StateObject var appSettings = AppSettings()
     
+    let instagramProvider = InstagramProvider()
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(appSettings)
-                .environmentObject(InstagramProvider())
+                .environmentObject(instagramProvider)
+                .environmentObject(FeedService(instagramProvider: instagramProvider))
         }
     }
 }

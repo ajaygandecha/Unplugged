@@ -9,9 +9,11 @@ import SwiftUI
 
 struct FeedView: View {
     var posts: [Post] = []
-    
+
+    @EnvironmentObject var feedService: FeedService
+
     @State private var filterSelection = "All Posts"
-    
+
     var body: some View {
         NavigationStack {
             GeometryReader { geometry in
@@ -19,7 +21,7 @@ struct FeedView: View {
                     ZStack {
                         ScrollView {
                             ForEach(
-                                filterSelection == "All Posts" ? posts : posts.filter { post in post.source.name == filterSelection}
+                                filterSelection == "All Posts" ? feedService.feed : posts.filter { post in post.source.name == filterSelection}
                             ) {
                                 post in
                                 PostView(post: post, geometry: geometry).padding(.top, 8)
@@ -32,25 +34,25 @@ struct FeedView: View {
                             filterSelection = "All Posts"
                         } label: {
                             let active = filterSelection == "All Posts";
-                            
+
                             Image(systemName: "house")
                                 .font(.system(size: 24))
                                 .frame(width: 36, height: 36)
                                 .foregroundColor(.accentColor)
                                 .if(active) { $0.overlay(Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.blue), alignment: .bottom)
                                 }
-                                
+
                         }
                         .buttonStyle(.plain)
-                        
-                        
+
+
                         ForEach(ServiceType.allCases) { serviceType in
                             Spacer()
                             Button {
                                 filterSelection = serviceType.name
                             } label: {
                                 let active = filterSelection == serviceType.name;
-                                
+
                                 Image(serviceType.logo + ".plain")
                                     .resizable()
                                     .frame(width: 24, height: 24)
@@ -74,10 +76,10 @@ struct FeedView: View {
                                     } label: {
                                         Image(systemName: "gear")
                                     }
-                                    
+
                                 }
                             }
-                            
+
                         }
                     }
                 }
