@@ -12,6 +12,7 @@ struct UnpluggedApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(InstagramProvider())
         }
     }
 }

@@ -8,8 +8,10 @@
 import SwiftUI
 
 struct SettingsView: View {
+    @EnvironmentObject var instagramProvider: InstagramProvider
+    
     @State private var isConnectAccountExpanded: Bool = false;
-    @State private var isInstagramConnected: Bool = false;
+//    @State private var isInstagramConnected: Bool = false;
     @State private var isFacebookConnected: Bool = false;
     
     @State private var showAccountInfo: Bool = false;
@@ -30,13 +32,13 @@ struct SettingsView: View {
                         }
                         Spacer()
                         Button {
-                            if isInstagramConnected {
-                                
+                            if instagramProvider.authState == .loggedIn {
+                                connectAccountSheetConnection = .instagram_logout
                             } else {
-                                connectAccountSheetConnection = .instagram
+                                connectAccountSheetConnection = .instagram_login
                             }
                         } label: {
-                            !isInstagramConnected ? Text("Connect") : Text("Disconnect")
+                            instagramProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
                         }
                     }
                     HStack() {

@@ -41,6 +41,7 @@ struct WebView: UIViewRepresentable {
         
         // Delegate methods go here
         
+
 //        func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping @MainActor (WKNavigationActionPolicy) -> Void) {
 //            let targetURL = "https://www.apple.com"
 //            

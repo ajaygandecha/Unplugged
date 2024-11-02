@@ -8,36 +8,44 @@
 import SwiftUI
 
 enum ServiceType: String, Identifiable {
-    case instagram
-    case facebook
+    case instagram_login
+    case facebook_login
+    case instagram_logout
+    case facebook_logout
     
     var id: String { rawValue }
     
     var url: URL {
         switch self {
-            case .instagram: return URL(string: "https://instagram.com")!
-            case .facebook: return URL(string: "https://facebook.com")!
+            case .instagram_login: return URL(string: "https://www.instagram.com/accounts/login/")!
+            case .facebook_login: return URL(string: "https://www.facebook.com/login")!
+            case .instagram_logout: return URL(string: "https://www.instagram.com/accounts/logout/")!
+            case .facebook_logout: return URL(string: "https://www.facebook.com/logout")!
         }
     }
 }
 
 struct ConnectServiceView: View {
     
+    @Environment(\.dismiss) var dismiss
+    @EnvironmentObject var instagramProvider: InstagramProvider
+
     var service: ServiceType!
     
-    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack {
             HStack {
                 Button {
+                    self.instagramProvider.refreshLoginState()
                     dismiss()
                 } label: {
                     Text("Cancel")
                 }
                 Spacer()
                 Button {
-                    //
+                    self.instagramProvider.refreshLoginState()
+                    dismiss()
                 } label: {
                     Text("Save")
                 }
