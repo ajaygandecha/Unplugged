@@ -7,13 +7,16 @@
 
 import SwiftUI
 
+class AppSettings: ObservableObject {
+    @Published var showLikes: Bool = true;
+}
+
 struct SettingsView: View {
-    @State private var isConnectAccountExpanded: Bool = false;
-    @State private var isInstagramConnected: Bool = false;
-    @State private var isFacebookConnected: Bool = false;
+    @State private var isConnectAccountExpanded: Bool = false
+    @State private var isInstagramConnected: Bool = false
+    @State private var isFacebookConnected: Bool = false
     
-    @State private var showAccountInfo: Bool = false;
-    @State private var showLikes: Bool = false;
+    @EnvironmentObject var appSettings: AppSettings
 
     @State private var connectAccountSheetConnection: ServiceType?
     
@@ -53,7 +56,7 @@ struct SettingsView: View {
                 } label: {
                     Label("Connect Accounts", systemImage: "person.crop.square")
                 }
-                Toggle(isOn: $showLikes, label: { Label("Display Likes", systemImage: "heart") })
+                Toggle(isOn: $appSettings.showLikes, label: { Label("Display Likes", systemImage: "heart") })
             }
             .navigationTitle("Settings")
             .sheet(item: $connectAccountSheetConnection) { account in
@@ -64,5 +67,5 @@ struct SettingsView: View {
 }
 
 #Preview {
-    SettingsView()
+    SettingsView().environmentObject(AppSettings())
 }
