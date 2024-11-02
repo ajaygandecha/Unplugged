@@ -26,6 +26,7 @@
 		DED189272CD6911000C207CA /* CommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED189262CD6910C00C207CA /* CommentsView.swift */; };
 		DED189292CD695C500C207CA /* CommentItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED189282CD695C200C207CA /* CommentItemView.swift */; };
 		DED1892B2CD6983B00C207CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED1892A2CD6983900C207CA /* Comment.swift */; };
+		DED1892D2CD6CBCD00C207CA /* Extensions+Int.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED1892C2CD6CBC700C207CA /* Extensions+Int.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		DED189262CD6910C00C207CA /* CommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsView.swift; sourceTree = "<group>"; };
 		DED189282CD695C200C207CA /* CommentItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentItemView.swift; sourceTree = "<group>"; };
 		DED1892A2CD6983900C207CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		DED1892C2CD6CBC700C207CA /* Extensions+Int.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Extensions+Int.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -150,6 +152,7 @@
 		4F30FD022CD67D890085FD89 /* Unplugged */ = {
 			isa = PBXGroup;
 			children = (
+				DED1892C2CD6CBC700C207CA /* Extensions+Int.swift */,
 				4E32F2CE2CD6968A00D2B6B5 /* Views */,
 				4F30FD032CD67D890085FD89 /* UnpluggedApp.swift */,
 				4F30FD052CD67D890085FD89 /* ContentView.swift */,
@@ -350,6 +353,7 @@
 				4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */,
 				4ED96C802CD6814E00095A33 /* PostView.swift in Sources */,
 				DED189292CD695C500C207CA /* CommentItemView.swift in Sources */,
+				DED1892D2CD6CBCD00C207CA /* Extensions+Int.swift in Sources */,
 				4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */,
 				DED1892B2CD6983B00C207CA /* Comment.swift in Sources */,
 				DED189272CD6911000C207CA /* CommentsView.swift in Sources */,
