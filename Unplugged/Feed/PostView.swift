@@ -31,7 +31,7 @@ struct PostView: View {
                         .foregroundColor(.accentColor)
                     
                     if (appSettings.showLikes) {
-                        Text(String(post.likeCount))
+                        Text(post.likeCount.compacted)
                             .padding(.leading, -6)
                     }
                 }
@@ -143,6 +143,6 @@ struct PostView: View {
 
 #Preview {
     GeometryReader { geometry in
-        PostView(post: Post(likeCount: 10, userImage: "sample", username: "@KrisJordan", images: ["squarepost", "post", "tallpost"], body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", source: .instagram), geometry: geometry).environmentObject(AppSettings())
+        PostView(post: Post(likeCount: 1234567890, userImage: "sample", username: "@KrisJordan", images: ["squarepost", "post", "tallpost"], body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.", source: .instagram), geometry: geometry).environmentObject(AppSettings())
     }
 }
