@@ -9,7 +9,8 @@ import Foundation
 
 struct Post: Identifiable {
     let id = UUID()
-    let likeCount: Int
+    var liked: Bool
+    var likeCount: Int
     let userImage : String
     let username: String
     let media: [MediaItem]
