@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4ED96C6B2CD67E5B00095A33 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C692CD67E5B00095A33 /* HomeView.swift */; };
+		4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */; };
 		4F30FD042CD67D890085FD89 /* UnpluggedApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FD032CD67D890085FD89 /* UnpluggedApp.swift */; };
 		4F30FD062CD67D890085FD89 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F30FD052CD67D890085FD89 /* ContentView.swift */; };
 		4F30FD082CD67D8A0085FD89 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F30FD072CD67D8A0085FD89 /* Assets.xcassets */; };
@@ -34,6 +36,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4ED96C692CD67E5B00095A33 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4F30FD002CD67D890085FD89 /* Unplugged.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Unplugged.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F30FD032CD67D890085FD89 /* UnpluggedApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnpluggedApp.swift; sourceTree = "<group>"; };
 		4F30FD052CD67D890085FD89 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -96,6 +100,8 @@
 			isa = PBXGroup;
 			children = (
 				4F30FD032CD67D890085FD89 /* UnpluggedApp.swift */,
+				4ED96C692CD67E5B00095A33 /* HomeView.swift */,
+				4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */,
 				4F30FD052CD67D890085FD89 /* ContentView.swift */,
 				4F30FD072CD67D8A0085FD89 /* Assets.xcassets */,
 				4F30FD092CD67D8A0085FD89 /* Unplugged.entitlements */,
@@ -261,6 +267,8 @@
 			files = (
 				4F30FD062CD67D890085FD89 /* ContentView.swift in Sources */,
 				4F30FD042CD67D890085FD89 /* UnpluggedApp.swift in Sources */,
+				4ED96C6B2CD67E5B00095A33 /* HomeView.swift in Sources */,
+				4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
