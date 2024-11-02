@@ -114,7 +114,7 @@ class InstagramProvider: ObservableObject {
                     if let JSON = value as? [String: Any] {
                         print(JSON)
                         let data = JSON["data"] as! [String: Any]
-                        let feed = data["xdt_api__v1__feed__timeline__connection"] as! [String: Any]
+                        _ = data["xdt_api__v1__feed__timeline__connection"] as! [String: Any]
 //                        let edges = data["edges"] as [Any]
 //                        let firstPost = edges[0]
 //                        print(firstPost)
