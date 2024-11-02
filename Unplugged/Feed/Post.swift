@@ -8,5 +8,6 @@
 struct Post {
     let userImage : String
     let username: String
-    
+    let image: String
+    let body: String
 }
