@@ -12,7 +12,7 @@ struct Post: Identifiable {
     let likeCount: Int
     let userImage : String
     let username: String
-    let image: String?
+    let images: [String]
     let body: String
     let source: ServiceType
 }
