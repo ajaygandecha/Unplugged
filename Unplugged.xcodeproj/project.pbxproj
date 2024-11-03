@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		4E32F2CD2CD6968300D2B6B5 /* ConnectServiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E32F2CC2CD6968300D2B6B5 /* ConnectServiceView.swift */; };
 		4E32F2E22CD696D000D2B6B5 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E32F2E12CD696D000D2B6B5 /* WebView.swift */; };
+		4E7EC5CD2CD70CF7005CDE75 /* TwitterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5CC2CD70CF7005CDE75 /* TwitterProvider.swift */; };
+		4E7EC5CF2CD70D00005CDE75 /* AuthenticationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5CE2CD70CFD005CDE75 /* AuthenticationState.swift */; };
 		4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C692CD67E5B00095A33 /* FeedView.swift */; };
 		4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */; };
 		4ED96C802CD6814E00095A33 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C7F2CD6814E00095A33 /* PostView.swift */; };
@@ -24,6 +26,7 @@
 		4F353E002CD6CD9A008B185F /* InstagramProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F353DFF2CD6CD9A008B185F /* InstagramProvider.swift */; };
 		4F353E062CD6D285008B185F /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F353E052CD6D285008B185F /* FeedService.swift */; };
 		4F353E082CD6EF38008B185F /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F353E072CD6EF38008B185F /* VideoPlayerView.swift */; };
+		4F353E0A2CD71643008B185F /* FacebookProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F353E092CD71643008B185F /* FacebookProvider.swift */; };
 		DED189272CD6911000C207CA /* CommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED189262CD6910C00C207CA /* CommentsView.swift */; };
 		DED189292CD695C500C207CA /* CommentItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED189282CD695C200C207CA /* CommentItemView.swift */; };
 		DED1892B2CD6983B00C207CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED1892A2CD6983900C207CA /* Comment.swift */; };
@@ -51,6 +54,8 @@
 /* Begin PBXFileReference section */
 		4E32F2CC2CD6968300D2B6B5 /* ConnectServiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectServiceView.swift; sourceTree = "<group>"; };
 		4E32F2E12CD696D000D2B6B5 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
+		4E7EC5CC2CD70CF7005CDE75 /* TwitterProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterProvider.swift; sourceTree = "<group>"; };
+		4E7EC5CE2CD70CFD005CDE75 /* AuthenticationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationState.swift; sourceTree = "<group>"; };
 		4ED96C692CD67E5B00095A33 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4ED96C7F2CD6814E00095A33 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -69,6 +74,7 @@
 		4F353DFF2CD6CD9A008B185F /* InstagramProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramProvider.swift; sourceTree = "<group>"; };
 		4F353E052CD6D285008B185F /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		4F353E072CD6EF38008B185F /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
+		4F353E092CD71643008B185F /* FacebookProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookProvider.swift; sourceTree = "<group>"; };
 		DED189262CD6910C00C207CA /* CommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsView.swift; sourceTree = "<group>"; };
 		DED189282CD695C200C207CA /* CommentItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentItemView.swift; sourceTree = "<group>"; };
 		DED1892A2CD6983900C207CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -199,7 +205,10 @@
 		4F353DFE2CD6CD88008B185F /* Providers */ = {
 			isa = PBXGroup;
 			children = (
+				4E7EC5CE2CD70CFD005CDE75 /* AuthenticationState.swift */,
 				4F353DFF2CD6CD9A008B185F /* InstagramProvider.swift */,
+				4F353E092CD71643008B185F /* FacebookProvider.swift */,
+				4E7EC5CC2CD70CF7005CDE75 /* TwitterProvider.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -350,6 +359,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DED189312CD6E83500C207CA /* Extension+View.swift in Sources */,
+				4E7EC5CF2CD70D00005CDE75 /* AuthenticationState.swift in Sources */,
 				4F30FD062CD67D890085FD89 /* ContentView.swift in Sources */,
 				4E32F2E22CD696D000D2B6B5 /* WebView.swift in Sources */,
 				4ED96C822CD6824700095A33 /* Post.swift in Sources */,
@@ -362,9 +372,11 @@
 				DED189292CD695C500C207CA /* CommentItemView.swift in Sources */,
 				DED1892D2CD6CBCD00C207CA /* Extensions+Int.swift in Sources */,
 				4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */,
+				4E7EC5CD2CD70CF7005CDE75 /* TwitterProvider.swift in Sources */,
 				DED1892B2CD6983B00C207CA /* Comment.swift in Sources */,
 				DED189272CD6911000C207CA /* CommentsView.swift in Sources */,
 				4F353E082CD6EF38008B185F /* VideoPlayerView.swift in Sources */,
+				4F353E0A2CD71643008B185F /* FacebookProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,7 +536,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = G9SX389925;
+				DEVELOPMENT_TEAM = 2H58R69UA7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -543,7 +555,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jadek.unplugged;
+				PRODUCT_BUNDLE_IDENTIFIER = com.noah.Unplugged;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -562,7 +574,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = G9SX389925;
+				DEVELOPMENT_TEAM = 2H58R69UA7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -581,7 +593,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jadek.unplugged;
+				PRODUCT_BUNDLE_IDENTIFIER = com.noah.Unplugged;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";

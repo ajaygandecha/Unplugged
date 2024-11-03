@@ -13,6 +13,8 @@ class AppSettings: ObservableObject {
 
 struct SettingsView: View {
     @EnvironmentObject var instagramProvider: InstagramProvider
+    @EnvironmentObject var facebookProvider: FacebookProvider
+    @EnvironmentObject var twitterProvider: TwitterProvider
 
     @State private var isConnectAccountExpanded: Bool = false
     @State private var isFacebookConnected: Bool = false
@@ -50,8 +52,11 @@ struct SettingsView: View {
                             Text("Facebook")
                         }
                         Spacer()
-                        Button(action: {}) {
-                            !isFacebookConnected ? Text("Connect") : Text("Disconnect")
+                        Button {
+                            signinMode = facebookProvider.authState == .loggedIn ? .logout : .login
+                            connectAccountSheetConnection = .facebook
+                        } label: {
+                            facebookProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
                         }
                     }
 
@@ -62,8 +67,11 @@ struct SettingsView: View {
                             Text("Twitter")
                         }
                         Spacer()
-                        Button(action: {}) {
-                            !isTwitterConnected ? Text("Connect") : Text("Disconnect")
+                        Button {
+                            signinMode = twitterProvider.authState == .loggedIn ? .logout : .login
+                            connectAccountSheetConnection = .twitter
+                        } label: {
+                            twitterProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
                         }
                     }
                 } label: {
@@ -86,6 +94,7 @@ struct SettingsView: View {
             }
             .onAppear() {
                 instagramProvider.refreshLoginState()
+                twitterProvider.refreshLoginState()
             }
         }
     }

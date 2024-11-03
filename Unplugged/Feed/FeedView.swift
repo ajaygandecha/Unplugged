@@ -11,8 +11,10 @@ struct FeedView: View {
     var posts: [Post] = []
 
     @EnvironmentObject var instagramProvider: InstagramProvider
+    @EnvironmentObject var twitterProvider: TwitterProvider
+
     @EnvironmentObject var feedService: FeedService
-    
+
     // Replace with EnvironmentObject providers
     @State private var isFacebookConnected: Bool = false
     @State private var isTwitterConnected: Bool = false
@@ -28,7 +30,7 @@ struct FeedView: View {
         if isFacebookConnected {
             apps.append("Facebook")
         }
-        if isTwitterConnected {
+        if twitterProvider.authState == .loggedIn {
             apps.append("Twitter")
         }
         return apps
