@@ -70,8 +70,8 @@ struct FeedView: View {
                             Image(systemName: "house")
                                 .font(.system(size: 24))
                                 .frame(width: 36, height: 36)
-                                .foregroundColor(.accentColor)
-                                .if(active) { $0.overlay(Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.blue), alignment: .bottom)
+                                .foregroundColor(Color.primary)
+                                .if(active) { $0.overlay(Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.primary), alignment: .bottom)
                                 }
                         }
                         .buttonStyle(.plain)
@@ -88,8 +88,8 @@ struct FeedView: View {
                                     .resizable()
                                     .frame(width: 24, height: 24)
                                     .padding(6)
-                                    .foregroundColor(.accentColor)
-                                    .if(active) { $0.overlay(Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.blue), alignment: .bottom)
+                                    .foregroundColor(Color.primary)
+                                    .if(active) { $0.overlay(Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.primary), alignment: .bottom)
                                     }
                             }.buttonStyle(.plain)
                         }
