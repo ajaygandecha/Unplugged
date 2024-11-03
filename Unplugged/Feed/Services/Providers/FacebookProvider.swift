@@ -16,8 +16,10 @@ class FacebookProvider: ObservableObject {
     @Published var authState: AuthenticationState = .loggedOut
     @Published var posts: [Post] = []
     
+    var isRequestActive: Bool = false
     var afterCursor: String?
     var dtsg: String = ""
+    var doc_id: UInt64 = 8588151837930652
     let headers: HTTPHeaders = [
 //            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
         "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
@@ -43,6 +45,8 @@ class FacebookProvider: ObservableObject {
         "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36",
         "viewport-width": "393"
     ]
+    
+    var feedService: FeedService?
     
     init() {
         self.cookieStore = HTTPCookieStorage.shared
@@ -80,6 +84,11 @@ class FacebookProvider: ObservableObject {
     }
 
     func fetchPosts(cursor: String, completionBlock: @escaping ([Post]) -> Void) {
+        if self.isRequestActive {
+//            return
+        }
+        self.isRequestActive = true
+        
         if self.dtsg.isEmpty {
             getDGST {
                 self.fetchPosts(cursor: cursor, completionBlock: completionBlock)
@@ -92,9 +101,14 @@ class FacebookProvider: ObservableObject {
             }
             
             let cursor: String?
+            let count: Int = 5
             let connectionClass: String = "EXCELLENT"
             let feedbackSource: Int = 1
-            let feedInitialFetchSize: Int = 5
+//            let feedInitialFetchSize: Int = 5
+//            let clientSession: String? = nil
+//            let clientQueryId: String = "5497026a-baa8-4507-b4ef-ec64cc68b117"
+//            let experimentalValues: String? = nil
+//            let focusCommentID: String? = nil
             let feedLocation: String = "NEWSFEED"
             let feedStyle: String = "MOST_RECENT_FRIENDS_FEED"
             let orderby: [String] = [
@@ -124,9 +138,10 @@ class FacebookProvider: ObservableObject {
         
         struct Parameters: Encodable {
             
-            init(variables: Variables, dtsg: String) {
+            init(variables: Variables, dtsg: String, doc_id: UInt64) {
                 self.variables = String(data: try! JSONEncoder().encode(variables), encoding: .utf8)!
                 self.fb_dtsg = dtsg
+                self.doc_id = doc_id
             }
             
 //            let av: UInt64 = 17841403880909452
@@ -153,7 +168,7 @@ class FacebookProvider: ObservableObject {
             let fb_api_req_friendly_name: String = "CometModernHomeFeedQuery"
             let variables: String
             let server_timestamps: Bool = true
-            let doc_id: UInt64 = 8588151837930652
+            let doc_id: UInt64
         }
         
         func preprocess(_ data: Data) -> Data {
@@ -165,7 +180,7 @@ class FacebookProvider: ObservableObject {
             return parsedStr.data(using: .utf8)!
         }
         
-        AF.request("https://www.facebook.com/api/graphql/", method: .post, parameters: Parameters(variables: Variables(cursor: cursor), dtsg: self.dtsg), encoder: URLEncodedFormParameterEncoder.default, headers: self.headers).response { res in
+        AF.request("https://www.facebook.com/api/graphql/", method: .post, parameters: Parameters(variables: Variables(cursor: cursor), dtsg: self.dtsg, doc_id: self.doc_id), encoder: URLEncodedFormParameterEncoder.default, headers: self.headers).response { res in
 //            print(res.response)
 //            print(res.data)
             if let err = res.error {
@@ -178,6 +193,15 @@ class FacebookProvider: ObservableObject {
             do {
                 let response = try JSONSerialization.jsonObject(with: preprocess(res.data!), options: .fragmentsAllowed) as! [Any]
                 let top = response[0] as! StrDict
+                let paginationBody = response.last as! StrDict
+                let paginationData = paginationBody["data"] as! StrDict
+                let pageInfo = paginationData["page_info"] as! StrDict
+                self.afterCursor = pageInfo["end_cursor"] as? String
+                self.doc_id = 9135143219870976
+                
+                if top["data"] is NSNull {
+                    return
+                }
                 let data = top["data"] as! StrDict
                 let viewer = data["viewer"] as! StrDict
                 let newsFeed = viewer["news_feed"] as! StrDict
@@ -204,30 +228,33 @@ class FacebookProvider: ObservableObject {
                         for attachment in attachments {
                             let styles = (attachment as! StrDict)["styles"] as! StrDict
                             let styleAttachment = styles["attachment"] as! StrDict
-                            let subAttachment = styleAttachment["all_subattachments"] as! StrDict
-                            let subNodes = subAttachment["nodes"] as! [Any]
-                            
-                            for node in subNodes {
-                                let media = (node as! StrDict)["media"] as! StrDict
-                                let isPlayable = media["is_playable"] as! Bool
+                            if !(styleAttachment["all_subattachments"] == nil) {
+                                let subAttachment = styleAttachment["all_subattachments"] as! StrDict
+                                let subNodes = subAttachment["nodes"] as! [Any]
                                 
-                                if isPlayable { // Video
-                                    let videoGridRenderer = media["video_grid_renderer"] as! StrDict
-                                    let video = videoGridRenderer["video"] as! StrDict
-                                    let videoDeliveryLegacyFields = video["videoDeliveryLegacyFields"] as! StrDict
-                                    let videoURL = videoDeliveryLegacyFields["browser_native_hd_url"] as! String
-                                    let videoHeight = video["height"] as! Int
-                                    let videoWidth = video["width"] as! Int
+                                for node in subNodes {
+                                    let media = (node as! StrDict)["media"] as! StrDict
+                                    let isPlayable = media["is_playable"] as! Bool
                                     
-                                    allMedia.append(MediaItem(url: videoURL, postType: .video, width: videoWidth, height: videoHeight))
-                                } else { // Photo
-                                    let image = media["image"] as! StrDict
-                                    let imageURL = image["uri"] as! String
-                                    let imageHeight = image["height"] as! Int
-                                    let imageWidth = image["width"] as! Int
-                                    
-                                    allMedia.append(MediaItem(url: imageURL, postType: .photo, width: imageWidth, height: imageHeight))
+                                    if isPlayable { // Video
+                                        let videoGridRenderer = media["video_grid_renderer"] as! StrDict
+                                        let video = videoGridRenderer["video"] as! StrDict
+                                        let videoDeliveryLegacyFields = video["videoDeliveryLegacyFields"] as! StrDict
+                                        let videoURL = videoDeliveryLegacyFields["browser_native_hd_url"] as! String
+                                        let videoHeight = video["height"] as! Int
+                                        let videoWidth = video["width"] as! Int
+                                        
+                                        allMedia.append(MediaItem(url: videoURL, postType: .video, width: videoWidth, height: videoHeight))
+                                    } else { // Photo
+                                        let image = media["image"] as! StrDict
+                                        let imageURL = image["uri"] as! String
+                                        let imageHeight = image["height"] as! Int
+                                        let imageWidth = image["width"] as! Int
+                                        
+                                        allMedia.append(MediaItem(url: imageURL, postType: .photo, width: imageWidth, height: imageHeight))
+                                    }
                                 }
+
                             }
                         }
                     }
@@ -265,18 +292,22 @@ class FacebookProvider: ObservableObject {
                     let reactionCount = summaryAndActionsFeedback["reaction_count"] as! StrDict
                     let likeCount = reactionCount["count"] as! Int
                     
-                    posts.append(Post(liked: false, likeCount: likeCount, userImage: profilePictureURL, username: name, media: allMedia, body: caption, source: .facebook, timestamp: timestamp))
+                    if !self.feedService!.feedTimestamps.contains(timestamp) {
+                        posts.append(Post(liked: false, likeCount: likeCount, userImage: profilePictureURL, username: name, media: allMedia, body: caption, source: .facebook, timestamp: timestamp))
+                    }
                 }
                 
-                let paginationBody = response.last as! StrDict
-                let paginationData = paginationBody["data"] as! StrDict
-                let pageInfo = paginationData["page_info"] as! StrDict
-                self.afterCursor = pageInfo["end_cursor"] as? String
+//                let paginationBody = response.last as! StrDict
+//                let paginationData = paginationBody["data"] as! StrDict
+//                let pageInfo = paginationData["page_info"] as! StrDict
+//                self.afterCursor = pageInfo["end_cursor"] as? String
+//                self.doc_id = 9135143219870976
                 
                 completionBlock(posts)
             } catch {
                 print(error)
             }
+            self.isRequestActive = false
 //            let response = String(decoding: res.data!, as: UTF8.self)
 //            print(response)
 //            print(response)
@@ -284,7 +315,7 @@ class FacebookProvider: ObservableObject {
     }
     
     func fetchNextPageOfPosts(completionBlock: @escaping ([Post]) -> Void) {
-//        print(self.afterCursor)
+        print(self.afterCursor)
         if let cursor = self.afterCursor {
             self.fetchPosts(cursor: cursor, completionBlock: completionBlock)
         }

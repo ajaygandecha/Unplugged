@@ -15,6 +15,10 @@ class FeedService: ObservableObject {
 
     @Published private var rawFeed: [Post] = []
     
+    var feedTimestamps: Set<Int> {
+        return Set(feed.map { $0.timestamp })
+    }
+    
     var feed: [Post] {
         let instagramFriendsSet = Set(instagramFriends)
         let facebookFriendsSet = Set(instagramFriends)
@@ -56,6 +60,7 @@ class FeedService: ObservableObject {
         self.instagramProvider = instagramProvider
         self.twitterProvider = twitterProvider
         self.facebookProvider = facebookProvider
+        self.facebookProvider.feedService = self
         self.appSettings = appSettings
 
         self.reset()

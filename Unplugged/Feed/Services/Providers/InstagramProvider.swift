@@ -18,6 +18,7 @@ class InstagramProvider: ObservableObject {
     @Published var posts: [Post] = []
     
     var afterCursor: String
+    var isRequestActive: Bool = false
     
     init() {
         self.cookieStore = HTTPCookieStorage.shared
@@ -41,6 +42,11 @@ class InstagramProvider: ObservableObject {
     }
 
     func fetchPosts(after: String, before: String, completionBlock: @escaping ([Post]) -> Void) {
+        if self.isRequestActive {
+            return
+        }
+        self.isRequestActive = true
+        
         struct VariableData: Encodable {
             let device_id: String = "528471E5-D166-4197-ABC9-ACA510B10649"
             let is_async_ads_double_request: String = "0"
@@ -188,6 +194,8 @@ class InstagramProvider: ObservableObject {
                 case .failure(let error):
                     print(error)
             }
+            
+            self.isRequestActive = false
         }
     }
     
