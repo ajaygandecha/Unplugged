@@ -21,14 +21,16 @@ class FeedService: ObservableObject {
     init(instagramProvider: InstagramProvider) {
         self.instagramProvider = instagramProvider
         
-        self.fetch()
+        if (self.instagramProvider.authState == .loggedIn) {
+            self.fetch()
+        }
     }
     // rn needs to call instagram provider fetch posts
     
     func fetch() {
         
         // Load instagram posts
-        self.instagramProvider.fetchPosts(after: "", before: "") { posts in
+        self.instagramProvider.fetchNextPageOfPosts { posts in
             self.rawFeed.append(contentsOf: posts)
         }
     }
