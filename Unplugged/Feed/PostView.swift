@@ -188,7 +188,8 @@ struct PostView: View {
                                 }
                             }
                             .onAppear {
-                                showMoreText = textGeometry.size.height > CGFloat(16 * 2)
+                                let numLines = lineLimit ?? Int(textGeometry.size.height)
+                                showMoreText = textGeometry.size.height > CGFloat(16 * numLines)
                             }
                             .frame(width: geometry.size.width, height: textGeometry.size.height, alignment: .bottomTrailing)
                         }
