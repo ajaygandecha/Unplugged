@@ -173,7 +173,7 @@ class InstagramProvider: ObservableObject {
                                 
                                 let caption = (media["caption"] as! StrDict)["text"] as? String ?? ""
                                                                 
-                                var post = Post(likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram)
+                                var post = Post(liked: false, likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram)
                                 
                                 posts.append(post)
                             }
