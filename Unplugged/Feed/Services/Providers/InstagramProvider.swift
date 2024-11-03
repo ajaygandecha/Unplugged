@@ -124,7 +124,6 @@ class InstagramProvider: ObservableObject {
             switch response.result {
                 case .success(let value):
                     if let JSON = value as? StrDict {
-                        print(JSON)
                         var posts: [Post] = [];
                         
                         let data = JSON["data"] as! StrDict
