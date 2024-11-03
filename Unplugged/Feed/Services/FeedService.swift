@@ -17,21 +17,35 @@ class FeedService: ObservableObject {
     }
     
     var instagramProvider: InstagramProvider!
-    
-    init(instagramProvider: InstagramProvider) {
+    var twitterProvider: TwitterProvider!
+
+    init(instagramProvider: InstagramProvider, twitterProvider: TwitterProvider) {
         self.instagramProvider = instagramProvider
-        
-        if (self.instagramProvider.authState == .loggedIn) {
-            self.fetch()
-        }
+        self.twitterProvider = twitterProvider
+
+        self.fetch()
     }
+    
     // rn needs to call instagram provider fetch posts
     
     func fetch() {
-        
-        // Load instagram posts
-        self.instagramProvider.fetchNextPageOfPosts { posts in
-            self.rawFeed.append(contentsOf: posts)
+        fetchInstagram()
+        fetchTwitter()
+    }
+    
+    func fetchInstagram() {
+        if (self.instagramProvider.authState == .loggedIn) {
+            self.instagramProvider.fetchNextPageOfPosts { posts in
+                self.rawFeed.append(contentsOf: posts)
+            }
+        }
+    }
+    
+    func fetchTwitter() {
+        if (self.twitterProvider.authState == .loggedIn) {
+            self.twitterProvider.fetchNextPageOfPosts { posts in
+                self.rawFeed.append(contentsOf: posts)
+            }
         }
     }
 }

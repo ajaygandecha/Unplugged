@@ -12,13 +12,15 @@ struct UnpluggedApp: App {
     @StateObject var appSettings = AppSettings()
     
     let instagramProvider = InstagramProvider()
+    let twitterProvider = TwitterProvider()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(appSettings)
                 .environmentObject(instagramProvider)
-                .environmentObject(FeedService(instagramProvider: instagramProvider))
+                .environmentObject(twitterProvider)
+                .environmentObject(FeedService(instagramProvider: instagramProvider, twitterProvider: twitterProvider))
         }
     }
 }

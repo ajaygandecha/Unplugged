@@ -34,7 +34,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
         switch self {
             case .instagram: return URL(string: "https://instagram.com/accounts/login")!
             case .facebook: return URL(string: "https://facebook.com/login")!
-            case .twitter: return URL(string: "https://facebook.com/login")!
+            case .twitter: return URL(string: "https://x.com/login")!
         }
     }
 
@@ -42,7 +42,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
         switch self {
             case .instagram: return URL(string: "https://instagram.com/accounts/logout")!
             case .facebook: return URL(string: "https://facebook.com/logout")!
-            case .twitter: return URL(string: "https://facebook.com/logout")!
+            case .twitter: return URL(string: "https://x.com/logout")!
         }
     }
 
@@ -56,6 +56,8 @@ enum SigninMode {
 struct ConnectServiceView: View {
 
     @EnvironmentObject var instagramProvider: InstagramProvider
+    @EnvironmentObject var twitterProvider: TwitterProvider
+
     @Environment(\.dismiss) var dismiss
 
     var service: ServiceType!
@@ -71,6 +73,17 @@ struct ConnectServiceView: View {
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             instagramProvider.refreshLoginState()
+        }
+        
+        self.twitterProvider.refreshLoginState()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            twitterProvider.refreshLoginState()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+            twitterProvider.refreshLoginState()
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            twitterProvider.refreshLoginState()
         }
         // Add facebook here
     }

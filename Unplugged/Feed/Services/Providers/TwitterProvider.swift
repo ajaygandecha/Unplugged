@@ -14,13 +14,9 @@ class TwitterProvider: ObservableObject {
     let cookieStore: HTTPCookieStorage
     
     @Published var authState: AuthenticationState = .loggedOut
-    
-    //var afterCursor: String
-    
+        
     init() {
         self.cookieStore = HTTPCookieStorage.shared
-        //self.afterCursor = ""
-        
         refreshLoginState()
     }
     
@@ -66,15 +62,6 @@ class TwitterProvider: ObservableObject {
             let responsive_web_enhance_cards_enabled: Bool = false
 
         }
-        struct VariableData: Encodable {
-            let device_id: String = "528471E5-D166-4197-ABC9-ACA510B10649"
-            let is_async_ads_double_request: String = "0"
-            let is_async_ads_in_headload_enabled: String = "0"
-            let is_async_ads_rti: String = "0"
-            let rti_delivery_backend: String = "0"
-            let pagination_source: String = "following"
-            let feed_view_info: String = "" // This may not work
-        }
         
         struct Variables: Encodable {
             
@@ -98,7 +85,7 @@ class TwitterProvider: ObservableObject {
             let features: Features = Features()
         }
         
-        AF.request("https://x.com/i/api/graphql/HyuV8ml52TYmyUjyrDq1CQ/HomeLatestTimeline", method: .post, parameters: Parameters(variables: Variables()), encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+        AF.request("https://x.com/i/api/graphql/E6AtJXVPtK7nIHAntKc5fA/HomeLatestTimeline", method: .post, parameters: Parameters(variables: Variables()), encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
             typealias StrDict = [String: Any];
             
             switch response.result {
@@ -132,6 +119,19 @@ class TwitterProvider: ObservableObject {
                                 return MediaItem(url: itemData["media_url_https"] as? String ?? "", postType: .photo, width: width, height: height)
                             }
                             
+                            let dateFormatter = DateFormatter()
+
+                            // Set the format according to the string pattern
+                            dateFormatter.dateFormat = "EEE MMM dd HH:mm:ss Z yyyy"
+                            dateFormatter.locale = Locale(identifier: "en_US_POSIX") // Ensure consistent parsing
+
+                            var date = Date()
+                            if let translatedDate = dateFormatter.date(from: tweetData["created_at"] as? String ?? "") {
+                                date = translatedDate
+                            } else {
+                                print("Failed to convert date")
+                            }
+                                                        
                             posts.append(
                                 Post(liked: tweetData["favorited"] as? Bool ?? false,
                                      likeCount: tweetData["favorite_count"] as? Int ?? 0,
@@ -139,7 +139,7 @@ class TwitterProvider: ObservableObject {
                                      username: userData["screen_name"] as? String ?? "",
                                      media: mediaItems,
                                      body: tweetData["full_text"] as? String ?? "",
-                                     source: .twitter)
+                                     source: .twitter, timestamp: Int(date.timeIntervalSince1970))
                             )
                         }
                                                 
