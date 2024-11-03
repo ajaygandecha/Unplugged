@@ -18,10 +18,12 @@ class FeedService: ObservableObject {
     
     var instagramProvider: InstagramProvider!
     var twitterProvider: TwitterProvider!
+    var facebookProvider: FacebookProvider!
 
-    init(instagramProvider: InstagramProvider, twitterProvider: TwitterProvider) {
+    init(instagramProvider: InstagramProvider, twitterProvider: TwitterProvider, facebookProvider: FacebookProvider) {
         self.instagramProvider = instagramProvider
         self.twitterProvider = twitterProvider
+        self.facebookProvider = facebookProvider
 
         self.fetch()
     }
@@ -31,6 +33,7 @@ class FeedService: ObservableObject {
     func fetch() {
         fetchInstagram()
         fetchTwitter()
+        fetchFacebook()
     }
     
     func fetchInstagram() {
@@ -44,6 +47,14 @@ class FeedService: ObservableObject {
     func fetchTwitter() {
         if (self.twitterProvider.authState == .loggedIn) {
             self.twitterProvider.fetchNextPageOfPosts { posts in
+                self.rawFeed.append(contentsOf: posts)
+            }
+        }
+    }
+    
+    func fetchFacebook() {
+        if (self.facebookProvider.authState == .loggedIn) {
+            self.facebookProvider.fetchNextPageOfPosts { posts in
                 self.rawFeed.append(contentsOf: posts)
             }
         }

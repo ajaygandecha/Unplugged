@@ -22,7 +22,7 @@ struct UnpluggedApp: App {
                 .environmentObject(instagramProvider)
                 .environmentObject(facebookProvider)
                 .environmentObject(twitterProvider)
-                .environmentObject(FeedService(instagramProvider: instagramProvider, twitterProvider: twitterProvider))
+                .environmentObject(FeedService(instagramProvider: instagramProvider, twitterProvider: twitterProvider, facebookProvider: facebookProvider))
         }
     }
 }
