@@ -14,6 +14,7 @@ class TwitterProvider: ObservableObject {
     let cookieStore: HTTPCookieStorage
     
     @Published var authState: AuthenticationState = .loggedOut
+    @Published var activeTwitterCookies: [HTTPCookie]?
         
     init() {
         self.cookieStore = HTTPCookieStorage.shared
@@ -22,7 +23,9 @@ class TwitterProvider: ObservableObject {
     
     func refreshLoginState() {
         if let cookies = self.cookieStore.cookies(for: URL(string: "https://x.com")!) {
+            self.activeTwitterCookies = cookies
             for cookie in cookies {
+                
                 if cookie.name == "auth_token" {
                     authState = .loggedIn
                     return
@@ -35,6 +38,20 @@ class TwitterProvider: ObservableObject {
     }
 
     func fetchPosts(completionBlock: @escaping ([Post]) -> Void) {
+        
+        guard let cookies = activeTwitterCookies else { completionBlock([]); return }
+        
+        let csrfCookie = cookies.first { $0.name == "ct0" }
+        
+        
+        let headers: HTTPHeaders = [
+            "x-csrf-token": csrfCookie?.value ?? "",
+            "x-twitter-active-user": "yes",
+            "x-twitter-auth-type": "OAuthSession",
+            "x-twitter-client-language": "en",
+            "Authorization": "Bearer AAAAAAAAAAAAAAAAAAAAANRILgAAAAAAnNwIzUejRCOuH5E6I8xnZz4puTs%3D1Zv7ttfk8LF81IUq16cHjhLTvJu4FA33AGWWjCpTnA"
+        ]
+
         
         struct Features: Encodable {
             let rweb_tipjar_consumption_enabled: Bool = true
@@ -78,14 +95,15 @@ class TwitterProvider: ObservableObject {
             
             init(variables: Variables) {
                 self.variables = String(data: try! JSONEncoder().encode(variables), encoding: .utf8)!
+                self.features = String(data: try! JSONEncoder().encode(Features()), encoding: .utf8)!
             }
             
             let queryId: String = "E6AtJXVPtK7nIHAntKc5fA"
             let variables: String
-            let features: Features = Features()
+            let features: String
         }
         
-        AF.request("https://x.com/i/api/graphql/E6AtJXVPtK7nIHAntKc5fA/HomeLatestTimeline", method: .post, parameters: Parameters(variables: Variables()), encoder: URLEncodedFormParameterEncoder.default).responseJSON { response in
+        AF.request("https://x.com/i/api/graphql/E6AtJXVPtK7nIHAntKc5fA/HomeLatestTimeline", method: .get, parameters: Parameters(variables: Variables()), encoder: URLEncodedFormParameterEncoder.default, headers: headers).responseJSON { response in
             typealias StrDict = [String: Any];
             
             switch response.result {
