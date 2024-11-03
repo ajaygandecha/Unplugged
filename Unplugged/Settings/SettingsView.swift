@@ -16,6 +16,7 @@ struct SettingsView: View {
     
     @State private var isConnectAccountExpanded: Bool = false
     @State private var isFacebookConnected: Bool = false
+    @State private var signinMode: SigninMode = .login
     
     @EnvironmentObject var appSettings: AppSettings
 
@@ -34,11 +35,8 @@ struct SettingsView: View {
                         }
                         Spacer()
                         Button {
-                            if instagramProvider.authState == .loggedIn {
-                                
-                            } else {
-                                connectAccountSheetConnection = .instagram
-                            }
+                            signinMode = instagramProvider.authState == .loggedIn ? .logout : .login
+                            connectAccountSheetConnection = .instagram
                         } label: {
                             instagramProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
                         }
@@ -61,7 +59,10 @@ struct SettingsView: View {
             }
             .navigationTitle("Settings")
             .sheet(item: $connectAccountSheetConnection) { account in
-                ConnectServiceView(service: account)
+                ConnectServiceView(service: account, signInMode: $signinMode)
+            }
+            .onAppear() {
+                instagramProvider.refreshLoginState()
             }
         }
     }

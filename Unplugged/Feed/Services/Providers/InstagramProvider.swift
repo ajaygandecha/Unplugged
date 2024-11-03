@@ -21,8 +21,12 @@ class InstagramProvider: ObservableObject {
     @Published var authState: AuthenticationState = .loggedOut
     @Published var posts: [Post] = []
     
+    var afterCursor: String
+    
     init() {
         self.cookieStore = HTTPCookieStorage.shared
+        self.afterCursor = ""
+        
         refreshLoginState()
     }
     
@@ -92,7 +96,7 @@ class InstagramProvider: ObservableObject {
                 self.variables = String(data: try! JSONEncoder().encode(variables), encoding: .utf8)!
             }
             
-            let av: UInt64 = 17841403880909452
+//            let av: UInt64 = 17841403880909452
 //            __d: www
 //            __user: 0
 //            __a: 1
@@ -172,12 +176,16 @@ class InstagramProvider: ObservableObject {
                                 }
                                 
                                 let caption = (media["caption"] as! StrDict)["text"] as? String ?? ""
+                                let liked = (media["has_liked"] as! Int) == 1
                                                                 
-                                var post = Post(liked: false, likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram)
+                                var post = Post(liked: liked, likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram)
                                 
                                 posts.append(post)
                             }
                         }
+                        
+                        let pageInfo = feed["page_info"] as! StrDict
+                        self.afterCursor = pageInfo["end_cursor"] as? String ?? ""
                         
                         completionBlock(posts)
                     }
@@ -185,5 +193,9 @@ class InstagramProvider: ObservableObject {
                     print(error)
             }
         }
+    }
+    
+    func fetchNextPageOfPosts(completionBlock: @escaping ([Post]) -> Void) {
+        self.fetchPosts(after: self.afterCursor, before: "", completionBlock: completionBlock)
     }
 }
