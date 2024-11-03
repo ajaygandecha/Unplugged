@@ -13,7 +13,7 @@ struct Post: Identifiable {
     var likeCount: Int
     let userImage : String
     let username: String
-    let media: [MediaItem]
+    var media: [MediaItem]
     let body: String
     let source: ServiceType
     let timestamp: Int

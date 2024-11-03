@@ -26,7 +26,13 @@ class FeedService: ObservableObject {
                 ($0.source == .instagram && (!appSettings.filterInstagramFriends || (appSettings.filterInstagramFriends && instagramFriendsSet.contains($0.username))))
                 || ($0.source == .facebook && (!appSettings.filterFacebookFriends || (appSettings.filterFacebookFriends && facebookFriendsSet.contains($0.username))))
                 || ($0.source == .twitter && (!appSettings.filterTwitterFriends || (appSettings.filterTwitterFriends && twitterFriendsSet.contains($0.username))))
-
+            }
+            .map { post in
+                var newPost = post
+                newPost.media = post.media.filter { mediaItem in
+                    return !appSettings.hideVideos || mediaItem.postType == .photo
+                }
+                return newPost
             }
     }
     
