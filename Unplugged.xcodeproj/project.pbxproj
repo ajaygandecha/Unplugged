@@ -16,6 +16,8 @@
 		4E7EC5D92CD73645005CDE75 /* VideoPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 4E7EC5D82CD73645005CDE75 /* VideoPlayer */; };
 		4E7EC5DD2CD73B56005CDE75 /* Array+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5DC2CD73B56005CDE75 /* Array+RawRepresentable.swift */; };
 		4E7EC5DF2CD73BDB005CDE75 /* SelectInstagramFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5DE2CD73BDB005CDE75 /* SelectInstagramFriendsView.swift */; };
+		4E7EC5E32CD749C6005CDE75 /* SelectFacebookFriendsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5E22CD749C6005CDE75 /* SelectFacebookFriendsView.swift */; };
+		4E7EC5E52CD74A97005CDE75 /* SelectTwitterFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5E42CD74A97005CDE75 /* SelectTwitterFriends.swift */; };
 		4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C692CD67E5B00095A33 /* FeedView.swift */; };
 		4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */; };
 		4ED96C802CD6814E00095A33 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C7F2CD6814E00095A33 /* PostView.swift */; };
@@ -65,6 +67,8 @@
 		4E7EC5D42CD73374005CDE75 /* AsyncCachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncCachedImage.swift; sourceTree = "<group>"; };
 		4E7EC5DC2CD73B56005CDE75 /* Array+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+RawRepresentable.swift"; sourceTree = "<group>"; };
 		4E7EC5DE2CD73BDB005CDE75 /* SelectInstagramFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectInstagramFriendsView.swift; sourceTree = "<group>"; };
+		4E7EC5E22CD749C6005CDE75 /* SelectFacebookFriendsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectFacebookFriendsView.swift; sourceTree = "<group>"; };
+		4E7EC5E42CD74A97005CDE75 /* SelectTwitterFriends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectTwitterFriends.swift; sourceTree = "<group>"; };
 		4ED96C692CD67E5B00095A33 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4ED96C7F2CD6814E00095A33 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -159,6 +163,8 @@
 				4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */,
 				4E32F2CC2CD6968300D2B6B5 /* ConnectServiceView.swift */,
 				4E7EC5DE2CD73BDB005CDE75 /* SelectInstagramFriendsView.swift */,
+				4E7EC5E22CD749C6005CDE75 /* SelectFacebookFriendsView.swift */,
+				4E7EC5E42CD74A97005CDE75 /* SelectTwitterFriends.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -384,6 +390,7 @@
 			files = (
 				DED189312CD6E83500C207CA /* View+If.swift in Sources */,
 				4E7EC5CF2CD70D00005CDE75 /* AuthenticationState.swift in Sources */,
+				4E7EC5E32CD749C6005CDE75 /* SelectFacebookFriendsView.swift in Sources */,
 				4F30FD062CD67D890085FD89 /* ContentView.swift in Sources */,
 				4E32F2E22CD696D000D2B6B5 /* WebView.swift in Sources */,
 				4ED96C822CD6824700095A33 /* Post.swift in Sources */,
@@ -393,6 +400,7 @@
 				4E32F2CD2CD6968300D2B6B5 /* ConnectServiceView.swift in Sources */,
 				4E7EC5D52CD73374005CDE75 /* AsyncCachedImage.swift in Sources */,
 				4F30FD042CD67D890085FD89 /* UnpluggedApp.swift in Sources */,
+				4E7EC5E52CD74A97005CDE75 /* SelectTwitterFriends.swift in Sources */,
 				4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */,
 				4E7EC5DD2CD73B56005CDE75 /* Array+RawRepresentable.swift in Sources */,
 				4ED96C802CD6814E00095A33 /* PostView.swift in Sources */,

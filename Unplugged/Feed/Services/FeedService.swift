@@ -10,14 +10,24 @@ import SwiftUI
 class FeedService: ObservableObject {
     
     @AppStorage("instagramFriends") var instagramFriends: [String] = []
-    
+    @AppStorage("facebookFriends") var facebookFriends: [String] = []
+    @AppStorage("twitterFriends") var twitterFriends: [String] = []
+
     @Published private var rawFeed: [Post] = []
     
     var feed: [Post] {
         let instagramFriendsSet = Set(instagramFriends)
+        let facebookFriendsSet = Set(instagramFriends)
+        let twitterFriendsSet = Set(instagramFriends)
+
         return self.rawFeed
             .sorted(by: { $0.timestamp > $1.timestamp })
-            .filter { !appSettings.filterInstagramFriends || (appSettings.filterInstagramFriends && instagramFriendsSet.contains($0.username)) }
+            .filter {
+                ($0.source == .instagram && (!appSettings.filterInstagramFriends || (appSettings.filterInstagramFriends && instagramFriendsSet.contains($0.username))))
+                || ($0.source == .facebook && (!appSettings.filterFacebookFriends || (appSettings.filterFacebookFriends && facebookFriendsSet.contains($0.username))))
+                || ($0.source == .twitter && (!appSettings.filterTwitterFriends || (appSettings.filterTwitterFriends && twitterFriendsSet.contains($0.username))))
+
+            }
     }
     
     /// Calculates the ID of the post that should trigger a reload

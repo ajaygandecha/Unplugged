@@ -11,6 +11,9 @@ class AppSettings: ObservableObject {
     @Published var showLikes: Bool = true
     
     @Published var filterInstagramFriends: Bool = false
+    @Published var filterFacebookFriends: Bool = false
+    @Published var filterTwitterFriends: Bool = false
+
 }
 
 struct SettingsView: View {
@@ -20,6 +23,8 @@ struct SettingsView: View {
     @EnvironmentObject var feedService: FeedService
 
     @AppStorage("instagramFriends") var instagramFriends: [String] = []
+    @AppStorage("facebookFriends") var facebookFriends: [String] = []
+    @AppStorage("twitterFriends") var twitterFriends: [String] = []
 
     @State private var isConnectAccountExpanded: Bool = false
     @State private var isFacebookConnected: Bool = false
@@ -114,6 +119,26 @@ struct SettingsView: View {
                     facebookProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect").foregroundStyle(Color.red)
                 }
             }
+            
+            if facebookProvider.authState == .loggedIn {
+                Toggle(isOn: $appSettings.filterFacebookFriends, label: { Text("Limit Accounts") })
+                    .onChange(of: appSettings.filterFacebookFriends) { oldValue, newValue in
+                        feedService.reset()
+                    }
+            }
+            
+            if facebookProvider.authState == .loggedIn && appSettings.filterFacebookFriends {
+                NavigationLink {
+                    SelectFacebookFriendsView()
+                } label: {
+                    HStack {
+                        Text("Shown Accounts")
+                        Spacer()
+                        Text("\(facebookFriends.count) shown")
+                            .foregroundStyle(Color.secondary)
+                    }
+                }
+            }
         }
         
         Section {
@@ -129,6 +154,26 @@ struct SettingsView: View {
                     connectAccountSheetConnection = .twitter
                 } label: {
                     twitterProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect").foregroundStyle(Color.red)
+                }
+            }
+            
+            if twitterProvider.authState == .loggedIn {
+                Toggle(isOn: $appSettings.filterTwitterFriends, label: { Text("Limit Accounts") })
+                    .onChange(of: appSettings.filterTwitterFriends) { oldValue, newValue in
+                        feedService.reset()
+                    }
+            }
+            
+            if twitterProvider.authState == .loggedIn && appSettings.filterTwitterFriends {
+                NavigationLink {
+                    SelectTwitterFriends()
+                } label: {
+                    HStack {
+                        Text("Shown Accounts")
+                        Spacer()
+                        Text("\(twitterFriends.count) shown")
+                            .foregroundStyle(Color.secondary)
+                    }
                 }
             }
         }
