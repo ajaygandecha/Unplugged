@@ -12,12 +12,14 @@ struct UnpluggedApp: App {
     @StateObject var appSettings = AppSettings()
     
     let instagramProvider = InstagramProvider()
+    let facebookProvider = FacebookProvider()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(appSettings)
                 .environmentObject(instagramProvider)
+                .environmentObject(facebookProvider)
                 .environmentObject(FeedService(instagramProvider: instagramProvider))
         }
     }

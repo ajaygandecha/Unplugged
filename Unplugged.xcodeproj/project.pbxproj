@@ -24,6 +24,7 @@
 		4F353E002CD6CD9A008B185F /* InstagramProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F353DFF2CD6CD9A008B185F /* InstagramProvider.swift */; };
 		4F353E062CD6D285008B185F /* FeedService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F353E052CD6D285008B185F /* FeedService.swift */; };
 		4F353E082CD6EF38008B185F /* VideoPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F353E072CD6EF38008B185F /* VideoPlayerView.swift */; };
+		4F353E0A2CD71643008B185F /* FacebookProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F353E092CD71643008B185F /* FacebookProvider.swift */; };
 		DED189272CD6911000C207CA /* CommentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED189262CD6910C00C207CA /* CommentsView.swift */; };
 		DED189292CD695C500C207CA /* CommentItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED189282CD695C200C207CA /* CommentItemView.swift */; };
 		DED1892B2CD6983B00C207CA /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = DED1892A2CD6983900C207CA /* Comment.swift */; };
@@ -69,6 +70,7 @@
 		4F353DFF2CD6CD9A008B185F /* InstagramProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramProvider.swift; sourceTree = "<group>"; };
 		4F353E052CD6D285008B185F /* FeedService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedService.swift; sourceTree = "<group>"; };
 		4F353E072CD6EF38008B185F /* VideoPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoPlayerView.swift; sourceTree = "<group>"; };
+		4F353E092CD71643008B185F /* FacebookProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookProvider.swift; sourceTree = "<group>"; };
 		DED189262CD6910C00C207CA /* CommentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentsView.swift; sourceTree = "<group>"; };
 		DED189282CD695C200C207CA /* CommentItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentItemView.swift; sourceTree = "<group>"; };
 		DED1892A2CD6983900C207CA /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				4F353DFF2CD6CD9A008B185F /* InstagramProvider.swift */,
+				4F353E092CD71643008B185F /* FacebookProvider.swift */,
 			);
 			path = Providers;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				DED1892B2CD6983B00C207CA /* Comment.swift in Sources */,
 				DED189272CD6911000C207CA /* CommentsView.swift in Sources */,
 				4F353E082CD6EF38008B185F /* VideoPlayerView.swift in Sources */,
+				4F353E0A2CD71643008B185F /* FacebookProvider.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,7 +528,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = G9SX389925;
+				DEVELOPMENT_TEAM = 2H58R69UA7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -543,7 +547,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jadek.unplugged;
+				PRODUCT_BUNDLE_IDENTIFIER = com.noah.Unplugged;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
@@ -562,7 +566,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = G9SX389925;
+				DEVELOPMENT_TEAM = 2H58R69UA7;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -581,7 +585,7 @@
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.4;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.jadek.unplugged;
+				PRODUCT_BUNDLE_IDENTIFIER = com.noah.Unplugged;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";

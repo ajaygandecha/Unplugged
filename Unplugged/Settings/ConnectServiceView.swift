@@ -57,6 +57,7 @@ enum SigninMode {
 struct ConnectServiceView: View {
 
     @EnvironmentObject var instagramProvider: InstagramProvider
+    @EnvironmentObject var facebookProvider: FacebookProvider
     @Environment(\.dismiss) var dismiss
 
     var service: ServiceType!
@@ -64,16 +65,21 @@ struct ConnectServiceView: View {
 
     func refreshLoginStates() {
         self.instagramProvider.refreshLoginState()
+        self.facebookProvider.refreshLoginState()
+        // Add twitter code here
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             instagramProvider.refreshLoginState()
+            facebookProvider.refreshLoginState()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
             instagramProvider.refreshLoginState()
+            facebookProvider.refreshLoginState()
         }
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             instagramProvider.refreshLoginState()
+            facebookProvider.refreshLoginState()
         }
-        // Add facebook here
     }
 
     var body: some View {
