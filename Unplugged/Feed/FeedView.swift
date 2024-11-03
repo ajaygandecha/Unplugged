@@ -98,30 +98,18 @@ struct FeedView: View {
                                 } label: {
                                     Image(systemName: "gear")
                                 }
-
                             }
-
                         }
                     }
                     .sheet(isPresented: $showSettings) {
-//                        VStack (alignment: .leading, spacing: 0){
-//                            HStack{
-//                                Spacer()
-//                                Button{
-//                                    showSettings = false
-//                                } label: {
-//                                    Text("Done")
-//                                }
-//                            }
-//                            .padding(16)
-                            SettingsView()
-//                        }
+                        SettingsView()
                     }
                 }
             }
         }
     }
 }
+
 //
 //#Preview {
 //    FeedView(posts: [
