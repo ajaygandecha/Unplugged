@@ -64,14 +64,6 @@ struct PostView: View {
 //            .buttonStyle(.plain)
 
             Spacer()
-            
-            let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(post.timestamp)))
-
-            Text(formattedDate.uppercased())
-                .foregroundStyle(Color.secondary)
-                .font(.subheadline)
-                .bold()
-            
         }.padding(.horizontal, 16)
     }
 
@@ -109,9 +101,17 @@ struct PostView: View {
                             .resizable()
                             .frame(width: 18, height: 18)
                             .padding(.leading, 8)
+                        
+                        Spacer()
+                        
+                        let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(post.timestamp)))
+
+                        Text(formattedDate.uppercased())
+                            .foregroundStyle(Color.secondary)
+                            .font(.subheadline)
+                            .bold()
                     }
                 }
-                Spacer()
             }
             .padding(.horizontal, 16)
             
