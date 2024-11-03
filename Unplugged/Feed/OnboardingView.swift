@@ -24,8 +24,10 @@ struct OnboardingView: View {
                     .padding(.horizontal, 20)
             }
             VStack(spacing: 20) {
-                Text("Connect Accounts")
-                    .font(.largeTitle)
+                Text("Connect First Account")
+                    .font(.title)
+                    .bold()
+                    .padding(.top, 8)
                 List {
                     Button {
                         signinMode = .login

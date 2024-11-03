@@ -17,6 +17,18 @@ struct PostView: View {
     var hasMedia: Bool {
         post.media.count > 0
     }
+    
+    @State private var showMoreText: Bool = false
+    var moreLessText: String {
+        if showMoreText {
+            return isExpanded ? "less" : "more"
+        }
+        return ""
+    }
+    
+    var lineLimit: Int? {
+        return isExpanded ? nil : hasMedia ? 2 : 7
+    }
 
     @EnvironmentObject var appSettings: AppSettings
     @State var isActive: Bool = false
@@ -149,7 +161,7 @@ struct PostView: View {
             Text(post.body)
                 .multilineTextAlignment(.leading)
                 .padding(.horizontal, 16)
-                .lineLimit(isExpanded ? nil : hasMedia ? 2 : 7)
+                .lineLimit(lineLimit)
                 .overlay {
                     if isExpanded {
                         GeometryReader { textGeometry in
@@ -160,7 +172,6 @@ struct PostView: View {
                                     .foregroundStyle(Color.secondary)
                                     .background(Color(uiColor: .systemBackground))
                                     .padding(.horizontal, 16)
-
                             }
                             .frame(width: geometry.size.width, height: textGeometry.size.height, alignment: .bottomTrailing)
                         }
@@ -169,17 +180,22 @@ struct PostView: View {
                             Button {
                                 isExpanded.toggle()
                             } label: {
-                                Text("...more")
-                                    .foregroundStyle(Color.secondary)
-                                    .background(Color(uiColor: .systemBackground))
-                                    .padding(.horizontal, 16)
-
+                                if showMoreText {
+                                    Text("...more")
+                                        .foregroundStyle(Color.secondary)
+                                        .background(Color(uiColor: .systemBackground))
+                                        .padding(.horizontal, 16)
+                                }
+                            }
+                            .onAppear {
+                                showMoreText = textGeometry.size.height > CGFloat(16 * 2)
                             }
                             .frame(width: geometry.size.width, height: textGeometry.size.height, alignment: .bottomTrailing)
                         }
                     }
 
                 }
+                
 
             if (!hasMedia) {
                 postActions
