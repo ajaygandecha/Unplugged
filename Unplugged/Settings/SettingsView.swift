@@ -29,55 +29,8 @@ struct SettingsView: View {
     var body: some View {
         NavigationStack {
             List {
-                DisclosureGroup(isExpanded: $isConnectAccountExpanded) {
-                    HStack() {
-                        HStack {
-                            Image("instagram").resizable()
-                                .frame(width: 24, height: 24)
-                            Text("Instagram")
-                        }
-                        Spacer()
-                        Button {
-                            signinMode = instagramProvider.authState == .loggedIn ? .logout : .login
-                            connectAccountSheetConnection = .instagram
-                        } label: {
-                            instagramProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
-                        }
-                    }
-
-                    HStack() {
-                        HStack {
-                            Image("facebook").resizable()
-                                .frame(width: 24, height: 24)
-                            Text("Facebook")
-                        }
-                        Spacer()
-                        Button {
-                            signinMode = facebookProvider.authState == .loggedIn ? .logout : .login
-                            connectAccountSheetConnection = .facebook
-                        } label: {
-                            facebookProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
-                        }
-                    }
-
-                    HStack() {
-                        HStack {
-                            Image("twitter").resizable()
-                                .frame(width: 24, height: 24)
-                            Text("Twitter")
-                        }
-                        Spacer()
-                        Button {
-                            signinMode = twitterProvider.authState == .loggedIn ? .logout : .login
-                            connectAccountSheetConnection = .twitter
-                        } label: {
-                            twitterProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
-                        }
-                    }
-                } label: {
-                    Label("Connect Accounts", systemImage: "person.crop.square")
-                }
-                Toggle(isOn: $appSettings.showLikes, label: { Label("Display Likes", systemImage: "heart") })
+                accountsSection
+                preferencesSection
             }
             .navigationTitle("Settings")
             .toolbar {
@@ -96,6 +49,68 @@ struct SettingsView: View {
                 instagramProvider.refreshLoginState()
                 twitterProvider.refreshLoginState()
             }
+        }
+    }
+    
+    @ViewBuilder
+    private var accountsSection: some View {
+        Section {
+            HStack() {
+                HStack {
+                    Image("instagram").resizable()
+                        .frame(width: 24, height: 24)
+                    Text("Instagram")
+                }
+                Spacer()
+                Button {
+                    signinMode = instagramProvider.authState == .loggedIn ? .logout : .login
+                    connectAccountSheetConnection = .instagram
+                } label: {
+                    instagramProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
+                }
+            }
+
+            HStack() {
+                HStack {
+                    Image("facebook").resizable()
+                        .frame(width: 24, height: 24)
+                    Text("Facebook")
+                }
+                Spacer()
+                Button {
+                    signinMode = facebookProvider.authState == .loggedIn ? .logout : .login
+                    connectAccountSheetConnection = .facebook
+                } label: {
+                    facebookProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
+                }
+            }
+
+            HStack() {
+                HStack {
+                    Image("twitter").resizable()
+                        .frame(width: 24, height: 24)
+                    Text("Twitter")
+                }
+                Spacer()
+                Button {
+                    signinMode = twitterProvider.authState == .loggedIn ? .logout : .login
+                    connectAccountSheetConnection = .twitter
+                } label: {
+                    twitterProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
+                }
+            }
+        } header: {
+            Label("Accounts", systemImage: "person.crop.square")
+        }
+
+    }
+    
+    @ViewBuilder
+    private var preferencesSection: some View {
+        Section {
+            Toggle(isOn: $appSettings.showLikes, label: { Label("Display Likes", systemImage: "heart") })
+        } header: {
+            Label("Preferences", systemImage: "slider.horizontal.3")
         }
     }
 }
