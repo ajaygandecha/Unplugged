@@ -13,6 +13,7 @@ struct UnpluggedApp: App {
     
     let instagramProvider = InstagramProvider()
     let facebookProvider = FacebookProvider()
+    let twitterProvider = TwitterProvider()
     
     var body: some Scene {
         WindowGroup {
@@ -20,7 +21,8 @@ struct UnpluggedApp: App {
                 .environmentObject(appSettings)
                 .environmentObject(instagramProvider)
                 .environmentObject(facebookProvider)
-                .environmentObject(FeedService(instagramProvider: instagramProvider))
+                .environmentObject(twitterProvider)
+                .environmentObject(FeedService(instagramProvider: instagramProvider, twitterProvider: twitterProvider))
         }
     }
 }

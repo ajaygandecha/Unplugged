@@ -10,11 +10,6 @@ import Foundation
 import WebKit
 import Alamofire
 
-enum AuthenticationState {
-    case loggedIn
-    case loggedOut
-}
-
 class InstagramProvider: ObservableObject {
     let cookieStore: HTTPCookieStorage
     
@@ -179,7 +174,7 @@ class InstagramProvider: ObservableObject {
                                 let caption = (media["caption"] as! StrDict)["text"] as? String ?? ""
                                 let liked = (media["has_liked"] as! Int) == 1
                                                                 
-                                var post = Post(liked: liked, likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram, timestamp: timestamp)
+                                let post = Post(liked: liked, likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram, timestamp: timestamp)
                                 
                                 posts.append(post)
                             }

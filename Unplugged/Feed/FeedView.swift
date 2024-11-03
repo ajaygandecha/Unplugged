@@ -11,6 +11,8 @@ struct FeedView: View {
     var posts: [Post] = []
 
     @EnvironmentObject var instagramProvider: InstagramProvider
+    @EnvironmentObject var twitterProvider: TwitterProvider
+
     @EnvironmentObject var feedService: FeedService
     
     // Replace with EnvironmentObject providers
@@ -28,7 +30,7 @@ struct FeedView: View {
         if isFacebookConnected {
             apps.append("Facebook")
         }
-        if isTwitterConnected {
+        if twitterProvider.authState == .loggedIn {
             apps.append("Twitter")
         }
         return apps
@@ -39,7 +41,7 @@ struct FeedView: View {
             GeometryReader { geometry in
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack {
-                        if !(self.instagramProvider.authState == .loggedIn) { // Include facebook here
+                        if connectedApps.isEmpty { // Include facebook here
                             Text("LOGIN DAMIT")
                         } else {
                             ScrollView {
@@ -98,9 +100,7 @@ struct FeedView: View {
                                 } label: {
                                     Image(systemName: "gear")
                                 }
-
                             }
-
                         }
                     }
                     .sheet(isPresented: $showSettings) {
@@ -111,6 +111,7 @@ struct FeedView: View {
         }
     }
 }
+
 //
 //#Preview {
 //    FeedView(posts: [

@@ -11,14 +11,14 @@ enum ServiceType: String, Identifiable, CaseIterable {
     case instagram
     case facebook
     case twitter
-
+    
     var id: String { rawValue }
 
     var name: String {
         switch self {
             case .instagram: return "Instagram"
             case .facebook: return "Facebook"
-            case .twitter: return "Twitter"
+            case .twitter: return "X"
         }
     }
 
@@ -34,8 +34,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
         switch self {
             case .instagram: return URL(string: "https://instagram.com/accounts/login")!
             case .facebook: return URL(string: "https://facebook.com/login")!
-            case .twitter: return URL(string:
-                "https://x.com")!
+            case .twitter: return URL(string: "https://x.com/login")!
         }
     }
 
@@ -58,6 +57,8 @@ struct ConnectServiceView: View {
 
     @EnvironmentObject var instagramProvider: InstagramProvider
     @EnvironmentObject var facebookProvider: FacebookProvider
+    @EnvironmentObject var twitterProvider: TwitterProvider
+
     @Environment(\.dismiss) var dismiss
 
     var service: ServiceType!
