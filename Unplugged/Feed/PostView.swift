@@ -147,6 +147,7 @@ struct PostView: View {
             }
 
             Text(post.body)
+                .multilineTextAlignment(.leading)
                 .padding(.horizontal, 16)
                 .lineLimit(isExpanded ? nil : hasMedia ? 2 : 7)
                 .overlay {
@@ -161,7 +162,7 @@ struct PostView: View {
                                     .padding(.horizontal, 16)
 
                             }
-                            .frame(width: textGeometry.size.width, height: textGeometry.size.height, alignment: .bottomTrailing)
+                            .frame(width: geometry.size.width, height: textGeometry.size.height, alignment: .bottomTrailing)
                         }
                     } else {
                         GeometryReader { textGeometry in
@@ -174,7 +175,7 @@ struct PostView: View {
                                     .padding(.horizontal, 16)
 
                             }
-                            .frame(width: textGeometry.size.width, height: textGeometry.size.height, alignment: .bottomTrailing)
+                            .frame(width: geometry.size.width, height: textGeometry.size.height, alignment: .bottomTrailing)
                         }
                     }
 

@@ -9,6 +9,7 @@ import SwiftUI
 
 class AppSettings: ObservableObject {
     @Published var showLikes: Bool = true
+    @Published var hideVideos: Bool = false
     
     @Published var filterInstagramFriends: Bool = false
     @Published var filterFacebookFriends: Bool = false
@@ -185,6 +186,10 @@ struct SettingsView: View {
         Section {
             Toggle(isOn: $appSettings.showLikes, label: { Label("Display Likes", systemImage: "heart") })
                 .onChange(of: appSettings.showLikes) { oldValue, newValue in
+                    feedService.reset()
+                }
+            Toggle(isOn: $appSettings.hideVideos, label: { Label("Hide Videos from Feed", systemImage: "video") })
+                .onChange(of: appSettings.hideVideos) { oldValue, newValue in
                     feedService.reset()
                 }
                 
