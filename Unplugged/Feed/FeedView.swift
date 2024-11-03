@@ -22,7 +22,7 @@ struct FeedView: View {
                     ZStack {
                         ScrollView {
                             ForEach(
-                                filterSelection == "All Posts" ? feedService.feed : posts.filter { post in post.source.name == filterSelection}
+                                filterSelection == "All Posts" ? feedService.feed : feedService.feed.filter { post in post.source.name == filterSelection}
                             ) {
                                 post in
                                 PostView(post: post, geometry: geometry).padding(.top, 8)
