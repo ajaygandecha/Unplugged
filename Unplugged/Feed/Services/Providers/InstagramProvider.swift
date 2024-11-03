@@ -140,6 +140,7 @@ class InstagramProvider: ObservableObject {
                                 
                                 // owner["friendship_status"] = {following: bool} for mutuals
                                 let likeCount = media["like_count"] as? Int ?? 0
+                                let timestamp = media["taken_at"] as? Int ?? 0
                                 let userImage = owner["profile_pic_url"] as? String ?? ""
                                 let username = owner["username"] as? String ?? ""
 
@@ -173,7 +174,7 @@ class InstagramProvider: ObservableObject {
                                 let caption = (media["caption"] as! StrDict)["text"] as? String ?? ""
                                 let liked = (media["has_liked"] as! Int) == 1
                                                                 
-                                var post = Post(liked: liked, likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram)
+                                var post = Post(liked: liked, likeCount: likeCount, userImage: userImage, username: username, media: allMedia, body: caption, source: .instagram, timestamp: timestamp)
                                 
                                 posts.append(post)
                             }

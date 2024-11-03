@@ -13,7 +13,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
     case twitter
     
     var id: String { rawValue }
-    
+
     var name: String {
         switch self {
             case .instagram: return "Instagram"
@@ -21,7 +21,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
             case .twitter: return "X"
         }
     }
-    
+
     var logo: String {
         switch self {
             case .instagram: return "instagram"
@@ -29,7 +29,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
             case .twitter: return "twitter"
         }
     }
-    
+
     var url: URL {
         switch self {
             case .instagram: return URL(string: "https://instagram.com/accounts/login")!
@@ -37,7 +37,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
             case .twitter: return URL(string: "https://facebook.com/login")!
         }
     }
-    
+
     var logoutURL: URL {
         switch self {
             case .instagram: return URL(string: "https://instagram.com/accounts/logout")!
@@ -54,13 +54,13 @@ enum SigninMode {
 }
 
 struct ConnectServiceView: View {
-    
+
     @EnvironmentObject var instagramProvider: InstagramProvider
     @Environment(\.dismiss) var dismiss
-    
+
     var service: ServiceType!
     @Binding var signInMode: SigninMode
-    
+
     func refreshLoginStates() {
         self.instagramProvider.refreshLoginState()
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -74,7 +74,7 @@ struct ConnectServiceView: View {
         }
         // Add facebook here
     }
-    
+
     var body: some View {
         VStack {
             HStack {
@@ -93,7 +93,7 @@ struct ConnectServiceView: View {
                 }
             }
             .padding(16)
-            
+
             WebView(url: signInMode == .login ? service.url : service.logoutURL)
         }
     }

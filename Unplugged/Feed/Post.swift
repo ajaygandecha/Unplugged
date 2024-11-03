@@ -16,6 +16,7 @@ struct Post: Identifiable {
     let media: [MediaItem]
     let body: String
     let source: ServiceType
+    let timestamp: Int
 }
 
 enum MediaType {
