@@ -48,6 +48,12 @@ struct FeedView: View {
                             ) {
                                 post in
                                 PostView(post: post, geometry: geometry).padding(.top, 8)
+                                    .onAppear {
+                                        if post.id == self.feedService.nextPageLoadThresholdPostId {
+                                            print("trigger")
+                                            self.feedService.fetch()
+                                        }
+                                    }
                             }
                         }
                     }

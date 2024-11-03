@@ -11,6 +11,9 @@
 		4E32F2E22CD696D000D2B6B5 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E32F2E12CD696D000D2B6B5 /* WebView.swift */; };
 		4E7EC5CD2CD70CF7005CDE75 /* TwitterProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5CC2CD70CF7005CDE75 /* TwitterProvider.swift */; };
 		4E7EC5CF2CD70D00005CDE75 /* AuthenticationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5CE2CD70CFD005CDE75 /* AuthenticationState.swift */; };
+		4E7EC5D12CD72C85005CDE75 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5D02CD72C85005CDE75 /* OnboardingView.swift */; };
+		4E7EC5D52CD73374005CDE75 /* AsyncCachedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E7EC5D42CD73374005CDE75 /* AsyncCachedImage.swift */; };
+		4E7EC5D92CD73645005CDE75 /* VideoPlayer in Frameworks */ = {isa = PBXBuildFile; productRef = 4E7EC5D82CD73645005CDE75 /* VideoPlayer */; };
 		4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C692CD67E5B00095A33 /* FeedView.swift */; };
 		4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */; };
 		4ED96C802CD6814E00095A33 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED96C7F2CD6814E00095A33 /* PostView.swift */; };
@@ -56,6 +59,8 @@
 		4E32F2E12CD696D000D2B6B5 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		4E7EC5CC2CD70CF7005CDE75 /* TwitterProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TwitterProvider.swift; sourceTree = "<group>"; };
 		4E7EC5CE2CD70CFD005CDE75 /* AuthenticationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationState.swift; sourceTree = "<group>"; };
+		4E7EC5D02CD72C85005CDE75 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		4E7EC5D42CD73374005CDE75 /* AsyncCachedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncCachedImage.swift; sourceTree = "<group>"; };
 		4ED96C692CD67E5B00095A33 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 		4ED96C6A2CD67E5B00095A33 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4ED96C7F2CD6814E00095A33 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
@@ -88,6 +93,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F353DFD2CD6CD74008B185F /* Alamofire in Frameworks */,
+				4E7EC5D92CD73645005CDE75 /* VideoPlayer in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -112,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				4E32F2E12CD696D000D2B6B5 /* WebView.swift */,
+				4E7EC5D42CD73374005CDE75 /* AsyncCachedImage.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -124,6 +131,7 @@
 				DED189262CD6910C00C207CA /* CommentsView.swift */,
 				DED189282CD695C200C207CA /* CommentItemView.swift */,
 				4ED96C812CD6824400095A33 /* Post.swift */,
+				4E7EC5D02CD72C85005CDE75 /* OnboardingView.swift */,
 				4ED96C692CD67E5B00095A33 /* FeedView.swift */,
 				4ED96C7F2CD6814E00095A33 /* PostView.swift */,
 				4F353E072CD6EF38008B185F /* VideoPlayerView.swift */,
@@ -240,6 +248,7 @@
 			name = Unplugged;
 			packageProductDependencies = (
 				4F353DFC2CD6CD74008B185F /* Alamofire */,
+				4E7EC5D82CD73645005CDE75 /* VideoPlayer */,
 			);
 			productName = Unplugged;
 			productReference = 4F30FD002CD67D890085FD89 /* Unplugged.app */;
@@ -315,6 +324,7 @@
 			mainGroup = 4F30FCF72CD67D890085FD89;
 			packageReferences = (
 				4F353DFB2CD6CD74008B185F /* XCRemoteSwiftPackageReference "Alamofire" */,
+				4E7EC5D72CD73645005CDE75 /* XCRemoteSwiftPackageReference "VideoPlayer" */,
 			);
 			productRefGroup = 4F30FD012CD67D890085FD89 /* Products */;
 			projectDirPath = "";
@@ -366,11 +376,13 @@
 				4F353E002CD6CD9A008B185F /* InstagramProvider.swift in Sources */,
 				4F353E062CD6D285008B185F /* FeedService.swift in Sources */,
 				4E32F2CD2CD6968300D2B6B5 /* ConnectServiceView.swift in Sources */,
+				4E7EC5D52CD73374005CDE75 /* AsyncCachedImage.swift in Sources */,
 				4F30FD042CD67D890085FD89 /* UnpluggedApp.swift in Sources */,
 				4ED96C6B2CD67E5B00095A33 /* FeedView.swift in Sources */,
 				4ED96C802CD6814E00095A33 /* PostView.swift in Sources */,
 				DED189292CD695C500C207CA /* CommentItemView.swift in Sources */,
 				DED1892D2CD6CBCD00C207CA /* Extensions+Int.swift in Sources */,
+				4E7EC5D12CD72C85005CDE75 /* OnboardingView.swift in Sources */,
 				4ED96C6C2CD67E5B00095A33 /* SettingsView.swift in Sources */,
 				4E7EC5CD2CD70CF7005CDE75 /* TwitterProvider.swift in Sources */,
 				DED1892B2CD6983B00C207CA /* Comment.swift in Sources */,
@@ -536,7 +548,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = 2H58R69UA7;
+				DEVELOPMENT_TEAM = 9ZR87Z2AF9;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -574,7 +586,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Unplugged/Preview Content\"";
-				DEVELOPMENT_TEAM = 2H58R69UA7;
+				DEVELOPMENT_TEAM = 9ZR87Z2AF9;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -735,6 +747,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4E7EC5D72CD73645005CDE75 /* XCRemoteSwiftPackageReference "VideoPlayer" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/wxxsw/VideoPlayer";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.4;
+			};
+		};
 		4F353DFB2CD6CD74008B185F /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire.git";
@@ -746,6 +766,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4E7EC5D82CD73645005CDE75 /* VideoPlayer */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4E7EC5D72CD73645005CDE75 /* XCRemoteSwiftPackageReference "VideoPlayer" */;
+			productName = VideoPlayer;
+		};
 		4F353DFC2CD6CD74008B185F /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4F353DFB2CD6CD74008B185F /* XCRemoteSwiftPackageReference "Alamofire" */;

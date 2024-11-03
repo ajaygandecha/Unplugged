@@ -7,6 +7,7 @@
 
 import SwiftUI
 import AVKit
+import VideoPlayer
 
 struct PostView: View {
 
@@ -18,6 +19,7 @@ struct PostView: View {
     }
 
     @EnvironmentObject var appSettings: AppSettings
+    @State var isActive: Bool = false
     @State var isExpanded: Bool = false
 
     @ViewBuilder var postActions: some View {
@@ -58,13 +60,15 @@ struct PostView: View {
         VStack(alignment: .leading) {
             HStack {
 
-                AsyncImage(url: URL(string: post.userImage)) { result in
-                    result.image?
+                AsyncCachedImage(url: URL(string: post.userImage)) { result in
+                    result
                         .resizable()
                         .frame(width: 48, height: 48)
                         .aspectRatio(contentMode: .fit)
                         .clipShape(Circle())
 
+                } placeholder: {
+                    ProgressView()
                 }
                 .frame(width: 48, height: 48)
 
@@ -91,8 +95,8 @@ struct PostView: View {
                 Spacer()
             }
             .padding(.horizontal, 16)
-
-            if (hasMedia) {
+            
+            if (isActive && hasMedia) {
                 let firstMediaItem = post.media.first!
                 let heightMultiple = Double(firstMediaItem.height) / Double(firstMediaItem.width)
 
@@ -101,11 +105,12 @@ struct PostView: View {
                         switch media.postType {
                             case .photo:
 
-                            AsyncImage(url: URL(string: media.url)!) { result in
-                                result.image?
+                            AsyncCachedImage(url: URL(string: media.url)!) { result in
+                                result
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-
+                            } placeholder: {
+                                ProgressView()
                             }
                             .frame(width: geometry.size.width, height: geometry.size.width)
 
@@ -162,7 +167,12 @@ struct PostView: View {
             
             Divider()
         }
-
+        .onAppear {
+            isActive = true
+        }
+        .onDisappear {
+            isActive = false
+        }
     }
 }
 

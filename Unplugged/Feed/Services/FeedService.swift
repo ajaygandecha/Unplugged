@@ -11,9 +11,21 @@ class FeedService: ObservableObject {
     
     @Published private var rawFeed: [Post] = []
     
+    
     var feed: [Post] {
 //        self.rawFeed
         self.rawFeed.sorted(by: { $0.timestamp > $1.timestamp })
+    }
+    
+    /// Calculates the ID of the post that should trigger a reload
+    var nextPageLoadThresholdPostId: UUID? {
+        if self.feed.count < 4 || self.feed.count > 100 {
+            return nil
+        }
+        
+        // We will load data at the fifth to last post.
+        let offset = self.rawFeed.count - 4
+        return self.feed[offset].id
     }
     
     var instagramProvider: InstagramProvider!
