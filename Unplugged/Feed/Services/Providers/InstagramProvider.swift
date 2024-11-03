@@ -11,6 +11,7 @@ import WebKit
 import Alamofire
 
 class InstagramProvider: ObservableObject {
+    
     let cookieStore: HTTPCookieStorage
     
     @Published var authState: AuthenticationState = .loggedOut
@@ -192,5 +193,9 @@ class InstagramProvider: ObservableObject {
     
     func fetchNextPageOfPosts(completionBlock: @escaping ([Post]) -> Void) {
         self.fetchPosts(after: self.afterCursor, before: "", completionBlock: completionBlock)
+    }
+    
+    func reset() {
+        self.afterCursor = ""
     }
 }

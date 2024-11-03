@@ -5,16 +5,19 @@
 //  Created by Noah Smith on 11/2/24.
 //
 
-import Foundation
+import SwiftUI
 
 class FeedService: ObservableObject {
     
+    @AppStorage("instagramFriends") var instagramFriends: [String] = []
+    
     @Published private var rawFeed: [Post] = []
     
-    
     var feed: [Post] {
-//        self.rawFeed
-        self.rawFeed.sorted(by: { $0.timestamp > $1.timestamp })
+        let instagramFriendsSet = Set(instagramFriends)
+        return self.rawFeed
+            .sorted(by: { $0.timestamp > $1.timestamp })
+            .filter { !appSettings.filterInstagramFriends || (appSettings.filterInstagramFriends && instagramFriendsSet.contains($0.username)) }
     }
     
     /// Calculates the ID of the post that should trigger a reload
@@ -28,21 +31,28 @@ class FeedService: ObservableObject {
         return self.feed[offset].id
     }
     
+    var appSettings: AppSettings!
     var instagramProvider: InstagramProvider!
     var twitterProvider: TwitterProvider!
     var facebookProvider: FacebookProvider!
 
-    init(instagramProvider: InstagramProvider, twitterProvider: TwitterProvider, facebookProvider: FacebookProvider) {
+    init(instagramProvider: InstagramProvider, twitterProvider: TwitterProvider, facebookProvider: FacebookProvider, appSettings: AppSettings) {
         self.instagramProvider = instagramProvider
         self.twitterProvider = twitterProvider
         self.facebookProvider = facebookProvider
+        self.appSettings = appSettings
 
-        self.fetch()
+        self.reset()
+        self.fetchNext()
     }
     
     // rn needs to call instagram provider fetch posts
     
-    func fetch() {
+    func reset() {
+        self.instagramProvider.reset()
+    }
+    
+    func fetchNext() {
         fetchInstagram()
         fetchTwitter()
         fetchFacebook()

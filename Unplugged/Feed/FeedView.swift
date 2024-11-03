@@ -15,7 +15,8 @@ struct FeedView: View {
     @EnvironmentObject var facebookProvider: FacebookProvider
 
     @EnvironmentObject var feedService: FeedService
-
+    @EnvironmentObject var appSettings: AppSettings
+    
     // Replace with EnvironmentObject providers
     @State private var isFacebookConnected: Bool = false
     @State private var isTwitterConnected: Bool = false
@@ -43,17 +44,19 @@ struct FeedView: View {
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack {
                         ScrollView {
-                            ForEach(
-                                filterSelection == "All Posts" ? feedService.feed : feedService.feed.filter { post in post.source.name == filterSelection}
-                            ) {
-                                post in
-                                PostView(post: post, geometry: geometry).padding(.top, 8)
-                                    .onAppear {
-                                        if post.id == self.feedService.nextPageLoadThresholdPostId {
-                                            print("trigger")
-                                            self.feedService.fetch()
+                            LazyVStack {
+                                ForEach(
+                                    filterSelection == "All Posts" ? feedService.feed : feedService.feed.filter { post in post.source.name == filterSelection}
+                                ) {
+                                    post in
+                                    PostView(post: post, geometry: geometry).padding(.top, 8)
+                                        .onAppear {
+                                            if post.id == self.feedService.nextPageLoadThresholdPostId {
+                                                print("trigger")
+                                                self.feedService.fetchNext()
+                                            }
                                         }
-                                    }
+                                }
                             }
                         }
                     }

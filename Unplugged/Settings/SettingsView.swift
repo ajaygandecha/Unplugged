@@ -8,13 +8,18 @@
 import SwiftUI
 
 class AppSettings: ObservableObject {
-    @Published var showLikes: Bool = true;
+    @Published var showLikes: Bool = true
+    
+    @Published var filterInstagramFriends: Bool = false
 }
 
 struct SettingsView: View {
     @EnvironmentObject var instagramProvider: InstagramProvider
     @EnvironmentObject var facebookProvider: FacebookProvider
     @EnvironmentObject var twitterProvider: TwitterProvider
+    @EnvironmentObject var feedService: FeedService
+
+    @AppStorage("instagramFriends") var instagramFriends: [String] = []
 
     @State private var isConnectAccountExpanded: Bool = false
     @State private var isFacebookConnected: Bool = false
@@ -66,10 +71,35 @@ struct SettingsView: View {
                     signinMode = instagramProvider.authState == .loggedIn ? .logout : .login
                     connectAccountSheetConnection = .instagram
                 } label: {
-                    instagramProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
+                    instagramProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect").foregroundStyle(Color.red)
                 }
             }
-
+            
+            if instagramProvider.authState == .loggedIn {
+                Toggle(isOn: $appSettings.filterInstagramFriends, label: { Text("Limit Accounts") })
+                    .onChange(of: appSettings.showLikes) { oldValue, newValue in
+                        feedService.reset()
+                    }
+            }
+            
+            if instagramProvider.authState == .loggedIn && appSettings.filterInstagramFriends {
+                NavigationLink {
+                    SelectInstagramFriendsView()
+                } label: {
+                    HStack {
+                        Text("Shown Accounts")
+                        Spacer()
+                        Text("\(instagramFriends.count) shown")
+                            .foregroundStyle(Color.secondary)
+                    }
+                }
+            }
+            
+        } header: {
+            Label("Accounts", systemImage: "person.crop.square")
+        }
+        
+        Section {
             HStack() {
                 HStack {
                     Image("facebook").resizable()
@@ -81,10 +111,12 @@ struct SettingsView: View {
                     signinMode = facebookProvider.authState == .loggedIn ? .logout : .login
                     connectAccountSheetConnection = .facebook
                 } label: {
-                    facebookProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
+                    facebookProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect").foregroundStyle(Color.red)
                 }
             }
-
+        }
+        
+        Section {
             HStack() {
                 HStack {
                     Image("twitter").resizable()
@@ -96,11 +128,9 @@ struct SettingsView: View {
                     signinMode = twitterProvider.authState == .loggedIn ? .logout : .login
                     connectAccountSheetConnection = .twitter
                 } label: {
-                    twitterProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
+                    twitterProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect").foregroundStyle(Color.red)
                 }
             }
-        } header: {
-            Label("Accounts", systemImage: "person.crop.square")
         }
 
     }
@@ -109,6 +139,10 @@ struct SettingsView: View {
     private var preferencesSection: some View {
         Section {
             Toggle(isOn: $appSettings.showLikes, label: { Label("Display Likes", systemImage: "heart") })
+                .onChange(of: appSettings.showLikes) { oldValue, newValue in
+                    feedService.reset()
+                }
+                
         } header: {
             Label("Preferences", systemImage: "slider.horizontal.3")
         }
