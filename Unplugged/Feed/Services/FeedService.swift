@@ -12,8 +12,8 @@ class FeedService: ObservableObject {
     @Published private var rawFeed: [Post] = []
     
     var feed: [Post] {
-        self.rawFeed
-        //self.rawFeed.sorted(by: { $0.date < $1.date })
+//        self.rawFeed
+        self.rawFeed.sorted(by: { $0.timestamp > $1.timestamp })
     }
     
     var instagramProvider: InstagramProvider!
