@@ -104,7 +104,18 @@ struct FeedView: View {
                         }
                     }
                     .sheet(isPresented: $showSettings) {
-                        SettingsView()
+//                        VStack (alignment: .leading, spacing: 0){
+//                            HStack{
+//                                Spacer()
+//                                Button{
+//                                    showSettings = false
+//                                } label: {
+//                                    Text("Done")
+//                                }
+//                            }
+//                            .padding(16)
+                            SettingsView()
+//                        }
                     }
                 }
             }
