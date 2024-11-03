@@ -16,11 +16,11 @@ class FacebookProvider: ObservableObject {
     @Published var authState: AuthenticationState = .loggedOut
     @Published var posts: [Post] = []
     
-    var afterCursor: String
+    var afterCursor: String?
     var dtsg: String = ""
     let headers: HTTPHeaders = [
 //            "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36"
-    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
         "accept-encoding": "gzip",
         "accept-language": "en-US,en;q=0.9,ja;q=0.8",
         "cache-control": "no-cache",
@@ -157,11 +157,10 @@ class FacebookProvider: ObservableObject {
         }
         
         func preprocess(_ data: Data) -> Data {
-            let str = String(data: data, encoding: .utf8)
-            var parsedStr = str?.replacingOccurrences(of: "\n", with: ",") ?? "]"
-            parsedStr = "[" + String(parsedStr.dropLast()) + "]"
-            
-            print(parsedStr.data(using: .utf8)!)
+            let str = String(decoding: data, as: UTF8.self)
+            var parsedStr = "[" + str.replacingOccurrences(of: "\r\n", with: ",") + "]"
+//            parsedStr = "[" + String(parsedStr) + "]"
+//            print(parsedStr)
             
             return parsedStr.data(using: .utf8)!
         }
@@ -169,21 +168,125 @@ class FacebookProvider: ObservableObject {
         AF.request("https://www.facebook.com/api/graphql/", method: .post, parameters: Parameters(variables: Variables(cursor: cursor), dtsg: self.dtsg), encoder: URLEncodedFormParameterEncoder.default, headers: self.headers).response { res in
 //            print(res.response)
 //            print(res.data)
-            if let error = res.error {
-                print(error)
+            if let err = res.error {
+                print(err)
                 return
             }
             
             typealias StrDict = [String: Any]
             
-//            let response = try? JSONSerialization.jsonObject(with: preprocess(res.data!), options: .fragmentsAllowed) as? StrDict
-            let response = String(decoding: res.data!, as: UTF8.self)
-            print(response)
+            do {
+                let response = try JSONSerialization.jsonObject(with: preprocess(res.data!), options: .fragmentsAllowed) as! [Any]
+                let top = response[0] as! StrDict
+                let data = top["data"] as! StrDict
+                let viewer = data["viewer"] as! StrDict
+                let newsFeed = viewer["news_feed"] as! StrDict
+                let edges = newsFeed["edges"] as! [Any]
+                var posts: [Post] = []
+                
+                for edge in edges {
+                    var allMedia: [MediaItem] = []
+                    
+                    let node = (edge as! StrDict)["node"] as! StrDict
+                    let cometSections = node["comet_sections"] as! StrDict
+                    let content = cometSections["content"] as! StrDict
+                    let story = content["story"] as! StrDict
+                    let subCometSections = story["comet_sections"] as! StrDict
+                    let message = subCometSections["message"] as! StrDict
+                    let messageStory = message["story"] as! StrDict
+                    let subMessage = messageStory["message"] as! StrDict
+                    let caption = subMessage["text"] as! String
+                    let isTextOnlyStory = messageStory["is_text_only_story"] as! Bool
+                    
+                    if !isTextOnlyStory {
+                        let attachments = story["attachments"] as! [Any]
+                        
+                        for attachment in attachments {
+                            let styles = (attachment as! StrDict)["styles"] as! StrDict
+                            let styleAttachment = styles["attachment"] as! StrDict
+                            let subAttachment = styleAttachment["all_subattachments"] as! StrDict
+                            let subNodes = subAttachment["nodes"] as! [Any]
+                            
+                            for node in subNodes {
+                                let media = (node as! StrDict)["media"] as! StrDict
+                                let isPlayable = media["is_playable"] as! Bool
+                                
+                                if isPlayable { // Video
+                                    let videoGridRenderer = media["video_grid_renderer"] as! StrDict
+                                    let video = videoGridRenderer["video"] as! StrDict
+                                    let videoDeliveryLegacyFields = video["videoDeliveryLegacyFields"] as! StrDict
+                                    let videoURL = videoDeliveryLegacyFields["browser_native_hd_url"] as! String
+                                    let videoHeight = video["height"] as! Int
+                                    let videoWidth = video["width"] as! Int
+                                    
+                                    allMedia.append(MediaItem(url: videoURL, postType: .video, width: videoWidth, height: videoHeight))
+                                } else { // Photo
+                                    let image = media["image"] as! StrDict
+                                    let imageURL = image["uri"] as! String
+                                    let imageHeight = image["height"] as! Int
+                                    let imageWidth = image["width"] as! Int
+                                    
+                                    allMedia.append(MediaItem(url: imageURL, postType: .photo, width: imageWidth, height: imageHeight))
+                                }
+                            }
+                        }
+                    }
+                    
+                    let contextLayout = cometSections["context_layout"] as! StrDict
+                    let contextLayoutStory = contextLayout["story"] as! StrDict
+                    let contextLayoutStoryCometSections = contextLayoutStory["comet_sections"] as! StrDict
+                    
+                    let metadata = contextLayoutStoryCometSections["metadata"] as! [Any]
+                    var timestamp: Int = Int(Date().timeIntervalSince1970)
+                    
+                    for entry in metadata {
+                        if (entry as! StrDict)["__typename"] as! String == "CometFeedStoryMinimizedTimestampStrategy" {
+                            let entryStory = (entry as! StrDict)["story"] as! StrDict
+                            timestamp = entryStory["creation_time"] as! Int
+                        }
+                    }
+                    
+                    let actorPhoto = contextLayoutStoryCometSections["actor_photo"] as! StrDict
+                    let actorPhotoStory = actorPhoto["story"] as! StrDict
+                    let actors = actorPhotoStory["actors"] as! [Any]
+                    let firstActor = actors[0] as! StrDict
+                    let name = firstActor["name"] as! String
+                    let profilePicture = firstActor["profile_picture"] as! StrDict
+                    let profilePictureURL = profilePicture["uri"] as! String
+                    
+                    let feedback = cometSections["feedback"] as! StrDict
+                    let feedbackStory = feedback["story"] as! StrDict
+                    let storyUFIContainer = feedbackStory["story_ufi_container"] as! StrDict
+                    let storyUFIContainerStory = storyUFIContainer["story"] as! StrDict
+                    let feedbackContext = storyUFIContainerStory["feedback_context"] as! StrDict
+                    let feedbackTargetWithContext = feedbackContext["feedback_target_with_context"] as! StrDict
+                    let summaryAndActions = feedbackTargetWithContext["comet_ufi_summary_and_actions_renderer"] as! StrDict
+                    let summaryAndActionsFeedback = summaryAndActions["feedback"] as! StrDict
+                    let reactionCount = summaryAndActionsFeedback["reaction_count"] as! StrDict
+                    let likeCount = reactionCount["count"] as! Int
+                    
+                    posts.append(Post(liked: false, likeCount: likeCount, userImage: profilePictureURL, username: name, media: allMedia, body: caption, source: .facebook, timestamp: timestamp))
+                }
+                
+                let paginationBody = response.last as! StrDict
+                let paginationData = paginationBody["data"] as! StrDict
+                let pageInfo = paginationData["page_info"] as! StrDict
+                self.afterCursor = pageInfo["end_cursor"] as? String
+                
+                completionBlock(posts)
+            } catch {
+                print(error)
+            }
+//            let response = String(decoding: res.data!, as: UTF8.self)
+//            print(response)
 //            print(response)
         }
     }
     
     func fetchNextPageOfPosts(completionBlock: @escaping ([Post]) -> Void) {
-        self.fetchPosts(cursor: self.afterCursor, completionBlock: completionBlock)
+//        print(self.afterCursor)
+        if let cursor = self.afterCursor {
+            self.fetchPosts(cursor: cursor, completionBlock: completionBlock)
+        }
     }
 }
