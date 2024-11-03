@@ -104,8 +104,10 @@ struct FeedView: View {
                                 Button {
                                     showSettings = true
                                 } label: {
-                                    Image(systemName: "gear")
+                                    Image(systemName: "gearshape")
+                                        .foregroundStyle(Color.primary)
                                 }
+                                .buttonStyle(.plain)
                             }
                         }
                     }

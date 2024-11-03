@@ -22,38 +22,57 @@ struct PostView: View {
     @State var isActive: Bool = false
     @State var isExpanded: Bool = false
 
-    @ViewBuilder var postActions: some View {
-        HStack {
-            Button {
-                post.likeCount = post.liked ? post.likeCount - 1 : post.likeCount + 1
-                post.liked.toggle()
-            } label: {
-                HStack {
-                    Image(systemName: post.liked ? "heart.fill" : "heart")
-                        .font(.system(size: 24))
-                        .frame(width: 36, height: 36)
-                        .foregroundColor(.accentColor)
+    var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM d"
+        return formatter
+    }
 
-                    if (appSettings.showLikes) {
-                        Text(post.likeCount.compacted)
-                            .padding(.leading, -6)
-                    }
+    
+    @ViewBuilder
+    var postActions: some View {
+        HStack {
+            
+            HStack(alignment: .center, spacing: 4) {
+                if appSettings.showLikes {
+                    Image(systemName: "heart.fill")
+                        .foregroundStyle(Color.primary)
+                        .font(.system(size: 18))
+                    
+                    Text(post.likeCount.compacted)
+                        .font(.subheadline)
+                        .bold()
                 }
             }
-            .buttonStyle(.plain)
+            .padding(.vertical, 4)
+//            Button {
+//                post.likeCount = post.liked ? post.likeCount - 1 : post.likeCount + 1
+//                post.liked.toggle()
+//            } label: {
+//                HStack {
+//                    Image(systemName: post.liked ? "heart.fill" : "heart")
+//                        .font(.system(size: 24))
+//                        .frame(width: 36, height: 36)
+//                        .foregroundColor(.accentColor)
+//
+//                    if (appSettings.showLikes) {
+//                        Text(post.likeCount.compacted)
+//                            .padding(.leading, -6)
+//                    }
+//                }
+//            }
+//            .buttonStyle(.plain)
 
-            Button {
-                //
-            } label: {
-                Image(systemName: "bubble")
-                    .font(.system(size: 22))
-                    .frame(width: 36, height: 36)
-                    .foregroundColor(.accentColor)
+            Spacer()
+            
+            let formattedDate = dateFormatter.string(from: Date(timeIntervalSince1970: TimeInterval(post.timestamp)))
 
-            }
-            .buttonStyle(.plain)
-
-        }.padding(.horizontal, 10)
+            Text(formattedDate.uppercased())
+                .foregroundStyle(Color.secondary)
+                .font(.subheadline)
+                .bold()
+            
+        }.padding(.horizontal, 16)
     }
 
     var body: some View {
@@ -138,7 +157,7 @@ struct PostView: View {
                             } label: {
                                 Text("less")
                                     .foregroundStyle(Color.secondary)
-                                    .background(Color.white)
+                                    .background(Color(uiColor: .systemBackground))
                                     .padding(.horizontal, 16)
 
                             }
@@ -151,7 +170,7 @@ struct PostView: View {
                             } label: {
                                 Text("...more")
                                     .foregroundStyle(Color.secondary)
-                                    .background(Color.white)
+                                    .background(Color(uiColor: .systemBackground))
                                     .padding(.horizontal, 16)
 
                             }
