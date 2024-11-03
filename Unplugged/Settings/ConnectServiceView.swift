@@ -10,6 +10,7 @@ import SwiftUI
 enum ServiceType: String, Identifiable, CaseIterable {
     case instagram
     case facebook
+    case twitter
     
     var id: String { rawValue }
     
@@ -17,6 +18,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
         switch self {
             case .instagram: return "Instagram"
             case .facebook: return "Facebook"
+            case .twitter: return "X"
         }
     }
     
@@ -24,6 +26,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
         switch self {
             case .instagram: return "instagram"
             case .facebook: return "facebook"
+            case .twitter: return "twitter"
         }
     }
     
@@ -31,6 +34,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
         switch self {
             case .instagram: return URL(string: "https://instagram.com/accounts/login")!
             case .facebook: return URL(string: "https://facebook.com/login")!
+            case .twitter: return URL(string: "https://facebook.com/login")!
         }
     }
     
@@ -38,6 +42,7 @@ enum ServiceType: String, Identifiable, CaseIterable {
         switch self {
             case .instagram: return URL(string: "https://instagram.com/accounts/logout")!
             case .facebook: return URL(string: "https://facebook.com/logout")!
+            case .twitter: return URL(string: "https://facebook.com/logout")!
         }
     }
 

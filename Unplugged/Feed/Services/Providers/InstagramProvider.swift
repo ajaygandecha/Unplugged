@@ -10,11 +10,6 @@ import Foundation
 import WebKit
 import Alamofire
 
-enum AuthenticationState {
-    case loggedIn
-    case loggedOut
-}
-
 class InstagramProvider: ObservableObject {
     let cookieStore: HTTPCookieStorage
     
