@@ -14,6 +14,7 @@ struct FeedView: View {
     @EnvironmentObject var instagramProvider: InstagramProvider
 
     @State private var filterSelection = "All Posts"
+    @State private var showSettings: Bool = false
 
     var body: some View {
         NavigationStack {
@@ -75,17 +76,18 @@ struct FeedView: View {
                     .toolbar {
                         ToolbarItem(placement: .topBarTrailing) {
                             HStack {
-                                Button(action: {}) {
-                                    NavigationLink {
-                                        SettingsView()
-                                    } label: {
-                                        Image(systemName: "gear")
-                                    }
-
+                                Button {
+                                    showSettings = true
+                                } label: {
+                                    Image(systemName: "gear")
                                 }
+
                             }
 
                         }
+                    }
+                    .sheet(isPresented: $showSettings) {
+                        SettingsView()
                     }
                 }
             }

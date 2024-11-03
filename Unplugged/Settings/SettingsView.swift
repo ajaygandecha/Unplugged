@@ -68,6 +68,6 @@ struct SettingsView: View {
     }
 }
 
-#Preview {
-    SettingsView().environmentObject(AppSettings())
-}
+//#Preview {
+//    SettingsView().environmentObject(AppSettings())
+//}
