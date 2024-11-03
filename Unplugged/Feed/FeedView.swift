@@ -100,9 +100,7 @@ struct FeedView: View {
                                 } label: {
                                     Image(systemName: "gear")
                                 }
-
                             }
-
                         }
                     }
                     .sheet(isPresented: $showSettings) {
@@ -113,6 +111,7 @@ struct FeedView: View {
         }
     }
 }
+
 //
 //#Preview {
 //    FeedView(posts: [

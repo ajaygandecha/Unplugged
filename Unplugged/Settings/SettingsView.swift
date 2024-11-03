@@ -21,13 +21,13 @@ struct SettingsView: View {
     @State private var signinMode: SigninMode = .login
     
     @EnvironmentObject var appSettings: AppSettings
-
+    @Environment(\.dismiss) var dismiss
+    
     @State private var connectAccountSheetConnection: ServiceType?
 
     var body: some View {
         NavigationStack {
             List {
-
                 DisclosureGroup(isExpanded: $isConnectAccountExpanded) {
                     HStack() {
                         HStack {
@@ -76,6 +76,15 @@ struct SettingsView: View {
                 Toggle(isOn: $appSettings.showLikes, label: { Label("Display Likes", systemImage: "heart") })
             }
             .navigationTitle("Settings")
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button{
+                        dismiss()
+                    } label: {
+                        Text("Done")
+                    }
+                }
+            }
             .sheet(item: $connectAccountSheetConnection) { account in
                 ConnectServiceView(service: account, signInMode: $signinMode)
             }
