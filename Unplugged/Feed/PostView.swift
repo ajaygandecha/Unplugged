@@ -35,7 +35,7 @@ struct PostView: View {
             
             HStack(alignment: .center, spacing: 4) {
                 if appSettings.showLikes {
-                    Image(systemName: "heart.fill")
+                    Image(systemName: post.liked ? "heart.fill" : "heart")
                         .foregroundStyle(Color.primary)
                         .font(.system(size: 18))
                     
