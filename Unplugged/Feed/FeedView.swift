@@ -39,16 +39,12 @@ struct FeedView: View {
             GeometryReader { geometry in
                 VStack(alignment: .leading, spacing: 0) {
                     ZStack {
-                        if !(self.instagramProvider.authState == .loggedIn) { // Include facebook here
-                            Text("LOGIN DAMIT")
-                        } else {
-                            ScrollView {
-                                ForEach(
-                                    filterSelection == "All Posts" ? feedService.feed : feedService.feed.filter { post in post.source.name == filterSelection}
-                                ) {
-                                    post in
-                                    PostView(post: post, geometry: geometry).padding(.top, 8)
-                                }
+                        ScrollView {
+                            ForEach(
+                                filterSelection == "All Posts" ? feedService.feed : feedService.feed.filter { post in post.source.name == filterSelection}
+                            ) {
+                                post in
+                                PostView(post: post, geometry: geometry).padding(.top, 8)
                             }
                         }
                     }
