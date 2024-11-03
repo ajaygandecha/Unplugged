@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct ContentView: View {
-    @EnvironmentObject var ig: InstagramProvider
+    @EnvironmentObject var instagramProvider: InstagramProvider
+    @EnvironmentObject var facebookProvider: FacebookProvider
+    @EnvironmentObject var twitterProvider: TwitterProvider
     
     var body: some View {
         // Change to be connected to storage not authState
-        if self.ig.authState == .loggedOut { // Include facebook here
+        if self.instagramProvider.authState == .loggedOut && self.facebookProvider.authState == .loggedOut &&
+            self.twitterProvider.authState == .loggedOut { // Include facebook here
             OnboardingView()
         } else {
             FeedView()
