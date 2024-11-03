@@ -58,7 +58,8 @@ struct ConnectServiceView: View {
     @EnvironmentObject var instagramProvider: InstagramProvider
     @EnvironmentObject var facebookProvider: FacebookProvider
     @EnvironmentObject var twitterProvider: TwitterProvider
-
+    @EnvironmentObject var feedService: FeedService
+    
     @Environment(\.dismiss) var dismiss
 
     var service: ServiceType!
@@ -80,7 +81,9 @@ struct ConnectServiceView: View {
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
             instagramProvider.refreshLoginState()
             facebookProvider.refreshLoginState()
+            feedService.reset()
         }
+        
     }
 
     var body: some View {
