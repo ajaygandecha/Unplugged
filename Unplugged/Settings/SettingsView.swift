@@ -16,6 +16,7 @@ struct SettingsView: View {
     
     @State private var isConnectAccountExpanded: Bool = false
     @State private var isFacebookConnected: Bool = false
+    @State private var isTwitterConnected: Bool = false
     
     @EnvironmentObject var appSettings: AppSettings
 
@@ -43,6 +44,7 @@ struct SettingsView: View {
                             instagramProvider.authState == .loggedOut ? Text("Connect") : Text("Disconnect")
                         }
                     }
+                    
                     HStack() {
                         HStack {
                             Image("facebook").resizable()
@@ -52,6 +54,18 @@ struct SettingsView: View {
                         Spacer()
                         Button(action: {}) {
                             !isFacebookConnected ? Text("Connect") : Text("Disconnect")
+                        }
+                    }
+                    
+                    HStack() {
+                        HStack {
+                            Image("twitter").resizable()
+                                .frame(width: 24, height: 24)
+                            Text("Twitter")
+                        }
+                        Spacer()
+                        Button(action: {}) {
+                            !isTwitterConnected ? Text("Connect") : Text("Disconnect")
                         }
                     }
                 } label: {

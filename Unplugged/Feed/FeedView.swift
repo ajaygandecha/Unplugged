@@ -10,10 +10,29 @@ import SwiftUI
 struct FeedView: View {
     var posts: [Post] = []
 
+    @EnvironmentObject var instagramProvider: InstagramProvider
     @EnvironmentObject var feedService: FeedService
+    
+    // Replace with EnvironmentObject providers
+    @State private var isFacebookConnected: Bool = false
+    @State private var isTwitterConnected: Bool = false
 
     @State private var filterSelection = "All Posts"
     @State private var showSettings: Bool = false
+    
+    var connectedApps: [String] {
+        var apps: [String] = []
+        if instagramProvider.authState == .loggedIn {
+            apps.append("Instagram")
+        }
+        if isFacebookConnected {
+            apps.append("Facebook")
+        }
+        if isTwitterConnected {
+            apps.append("Twitter")
+        }
+        return apps
+    }
 
     var body: some View {
         NavigationStack {
@@ -42,12 +61,11 @@ struct FeedView: View {
                                 .foregroundColor(.accentColor)
                                 .if(active) { $0.overlay(Rectangle().frame(width: nil, height: 2, alignment: .top).foregroundColor(Color.blue), alignment: .bottom)
                                 }
-
                         }
                         .buttonStyle(.plain)
 
 
-                        ForEach(ServiceType.allCases) { serviceType in
+                        ForEach(ServiceType.allCases.filter { connectedApps.contains($0.name) }) { serviceType in
                             Spacer()
                             Button {
                                 filterSelection = serviceType.name
@@ -65,7 +83,7 @@ struct FeedView: View {
                         }
                     }
                     .padding(
-                        EdgeInsets(top: 8, leading: 40, bottom: 0, trailing: 40)
+                        EdgeInsets(top: 8, leading: connectedApps.count == 1 ? 80 : 40, bottom: 0, trailing: connectedApps.count == 1 ? 80 : 40)
                     )
                     .navigationTitle("Unplugged")
                     .toolbar {
