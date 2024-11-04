@@ -13,3 +13,14 @@ With the typical social media user spending an average of 2.4 hours a day—and 
 
 That's were **Unplugged** comes in! Unplugged offers an alternative way to interact with social media, enabling users to see posts from only those they care about across their various social media accounts. Unplugged offers many ways for users to customize their feed, enabling them to stay connected with friends, family, and their communities without being subjected to advertisements, social media algorithms, and unsolicited content.
 
+## Features
+
+Users of Unplugged can:
+- View a **chronological feed** of their friends posts from across **many social media providers at once** (including Instagram and Facebook).
+    - *Supports all forms of content, including text, single image, image carousels, and short-form videos.*
+- **Filter** their feed based on social media provider.
+- **Hide like counts** on posts.
+- **Hide all video shorts** on the feed, commonly considered the most addictive form of social media content.
+- Choose **only specific accounts to show** for each social media provider. This is extremely useful because for example, a user may follow 100s of accounts on Instagram but only want to see posts from 10-20 accounts.
+
+
